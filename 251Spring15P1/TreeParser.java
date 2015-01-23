@@ -18,60 +18,82 @@ public class TreeParser {
         // String[] rlc = new String[3];
         int j = 0;
 
+        System.out.println(position +": "+treeRepresentationText.charAt(position));
+
         if (treeRepresentationText.charAt(position) == ',' && treeRepresentationText.charAt(position+1) == ',') {
         	Node node = new Node();
         	Node nil = new Node(-1);
         	node.setLeftChild(nil);
         	node.setRightChild(nil);
+        	// System.out.println(position +": "+treeRepresentationText.charAt(position));
         	position++;
         	// System.out.println(position);
+        	// System.out.println(position +": "+treeRepresentationText.charAt(position));
         	return node;
         } else if (treeRepresentationText.charAt(position) == ',' && treeRepresentationText.charAt(position+1) == ')') {
         	Node node = new Node();
         	Node nil = new Node(-1);
         	node.setLeftChild(nil);
         	node.setRightChild(nil);
+        	// System.out.println(position +": "+treeRepresentationText.charAt(position));
         	position++;
         	// System.out.println(position);
+        	// System.out.println(position +": "+treeRepresentationText.charAt(position));
         	return node;
         } else if(treeRepresentationText.charAt(position) == ',') {
+        	// System.out.println(position +": "+treeRepresentationText.charAt(position));
         	position++;
-        	System.out.println(position);
-        	while (treeRepresentationText.charAt(position) != ',' || treeRepresentationText.charAt(position) != ')') {
-    			treeString.concat(""+treeRepresentationText.charAt(position++));
-    			// System.out.println(position);
+        	System.out.println("49      :"+position);
+        	while (treeRepresentationText.charAt(position) != ',' && treeRepresentationText.charAt(position) != ')') {
+        		// System.out.println(position +": "+treeRepresentationText.charAt(position));
+        		System.out.println(position +": "+treeRepresentationText.charAt(position));
+    			treeString = treeString.concat(""+treeRepresentationText.charAt(position++));
+    			// System.out.println(position +": "+treeRepresentationText.charAt(position));
+    			// System.out.println(position +": "+treeRepresentationText.charAt(position));
     		}
-    		Node node = new Node( Integer.parseInt(treeString));
+    		Node node = new Node(Integer.parseInt(treeString));
+    		treeString = "";
 
     		return node;
-        }
-
-        if(treeRepresentationText.charAt(position) == ')' && treeRepresentationText.charAt(position-1) == ')') {
+        } else if(treeRepresentationText.charAt(position) == ')' /*&& treeRepresentationText.charAt(position-1) == ')'*/) {
         	Node node = new Node(-1);
-        	position++;
-        	//System.out.println(position);
+        	System.out.println(position +"))): "+treeRepresentationText.charAt(position));
+	        // if (position >= treeRepresentationText.length()) {
+	        // 	System.out.println("WTFFFFFFFFFFFFFFF");
+	        // 	return node;
+	        // }
+	        position++;
+        	// System.out.println(treeRepresentationText.charAt(position));
         	return node;
-        }
-
-
-    	if(treeRepresentationText.charAt(position) == '(') {
+        } else if(treeRepresentationText.charAt(position) == '(') {
+    		// System.out.println(position +": "+treeRepresentationText.charAt(position));
     		position++;
     		//System.out.println("GGGGGGGG" + position + treeRepresentationText.charAt(position));
     		while (treeRepresentationText.charAt(position) != ',' && treeRepresentationText.charAt(position) != ')') {
+    			System.out.println(position +": "+treeRepresentationText.charAt(position));
     			treeString = treeString.concat(""+treeRepresentationText.charAt(position++));
     			//System.out.println("str: "+treeString);
+    			// System.out.println(position +": "+treeRepresentationText.charAt(position));
     		}
     		Node node = new Node( Integer.parseInt(treeString));
-
-    		System.out.println("str: "+treeString + node.getid());
+    		// Node node = new Node();
+    		// System.out.println("str: "+treeString + "GGGGGGGG "+ node.getid());
     		treeString = "";
     		// bracketsCount++;
     		node.setLeftChild(createTree(treeRepresentationText));
     		node.setRightChild(createTree(treeRepresentationText));
 
     		return node;
+    	} else {
+    		System.out.println(position +": "+treeRepresentationText.charAt(position));
+    		treeString = treeString.concat(""+treeRepresentationText.charAt(position++));
+    		Node node = new Node( Integer.parseInt(treeString));
+    		treeString = "";
+
+    		node.setLeftChild(createTree(treeRepresentationText));
+    		node.setRightChild(createTree(treeRepresentationText));
+    		return node;
     	}
-        return root;
 
 
 
