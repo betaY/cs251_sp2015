@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class TreeParser {
 	static int position = 0;
 	
-	static String treeString;
+	static String treeString = "";
 	
 	public static String getCleanedString(String text) {
 		/* TODO: strip blanks in 'text' */
@@ -14,45 +14,64 @@ public class TreeParser {
 		/* TODO: build the tree by parsing 'treeRepresentationText' */
         int bracketsCount = 0;
         int commaCount = 0;
-        //Node root = new Node();
-        String[] rlc = new String[3];
+        Node root = new Node();
+        // String[] rlc = new String[3];
         int j = 0;
 
         if (treeRepresentationText.charAt(position) == ',' && treeRepresentationText.charAt(position+1) == ',') {
         	Node node = new Node();
+        	Node nil = new Node(-1);
+        	node.setLeftChild(nil);
+        	node.setRightChild(nil);
         	position++;
+        	// System.out.println(position);
         	return node;
         } else if (treeRepresentationText.charAt(position) == ',' && treeRepresentationText.charAt(position+1) == ')') {
         	Node node = new Node();
+        	Node nil = new Node(-1);
+        	node.setLeftChild(nil);
+        	node.setRightChild(nil);
         	position++;
+        	// System.out.println(position);
         	return node;
-        } else if(treeRepresentationText.charAt(position++) == ',') {
-        	while (treeRepresentationText.charAt(position) != ',' || treeRepresentationText.charAt(position) != ')') {
-    			treeString.concat(treeRepresentationText.charAt(position++));
-    		}
-    		Node node = new Node( Integer.parseInt(treeString));
-
-    		return node
-        }
-
-        if(treeRepresentationText.charAt(position) == ')') {
+        } else if(treeRepresentationText.charAt(position) == ',') {
         	position++;
+        	System.out.println(position);
+        	while (treeRepresentationText.charAt(position) != ',' || treeRepresentationText.charAt(position) != ')') {
+    			treeString.concat(""+treeRepresentationText.charAt(position++));
+    			// System.out.println(position);
+    		}
+    		Node node = new Node( Integer.parseInt(treeString));
+
+    		return node;
+        }
+
+        if(treeRepresentationText.charAt(position) == ')' && treeRepresentationText.charAt(position-1) == ')') {
+        	Node node = new Node(-1);
+        	position++;
+        	//System.out.println(position);
+        	return node;
         }
 
 
-    	if(treeRepresentationText.charAt(position++) == '(') {
-    		while (treeRepresentationText.charAt(position) != ',' || treeRepresentationText.charAt(position) != ')') {
-    			treeString.concat(treeRepresentationText.charAt(position++));
+    	if(treeRepresentationText.charAt(position) == '(') {
+    		position++;
+    		//System.out.println("GGGGGGGG" + position + treeRepresentationText.charAt(position));
+    		while (treeRepresentationText.charAt(position) != ',' && treeRepresentationText.charAt(position) != ')') {
+    			treeString = treeString.concat(""+treeRepresentationText.charAt(position++));
+    			//System.out.println("str: "+treeString);
     		}
     		Node node = new Node( Integer.parseInt(treeString));
+
+    		System.out.println("str: "+treeString + node.getid());
     		treeString = "";
-    		bracketsCount++;
+    		// bracketsCount++;
     		node.setLeftChild(createTree(treeRepresentationText));
     		node.setRightChild(createTree(treeRepresentationText));
 
     		return node;
     	}
-        
+        return root;
 
 
 
@@ -547,6 +566,30 @@ public class TreeParser {
 	public static String traversePath(Node root, String direction) {
 		/* TODO: traverse path in tree denoted by 'direction' and print node labels */
 		/* print a '*' when path would leave the tree */
+		String traverse = Integer.toString(root.getid());
+		// System.out.println(traverse);
+		for (int i = 0; i < direction.length(); i ++) {
+			if (direction.charAt(i) == 'L') {
+				root = root.getLeftChild();
+				if (root.getid() == 0) {
+					traverse.concat(" *");
+				} else if (root.getid() == -1) {
+					return traverse;
+				} else {
+					traverse.concat(" "+Integer.toString(root.getid()));
+				}
+			} else {
+				root = root.getRightChild();
+				if (root.getid() == 0) {
+					traverse.concat(" *");
+				} else if (root.getid() == -1) {
+					return traverse;
+				} else {
+					traverse.concat(" "+Integer.toString(root.getid()));
+				}
+			}
+		}
+		return traverse;
 	}
 	
 	public static void main(String args[]) {
