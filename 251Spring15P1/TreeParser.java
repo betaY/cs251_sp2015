@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class TreeParser {
-	static int position;
+	static int position = 0;
 	
 	static String treeString;
 	
@@ -14,9 +14,524 @@ public class TreeParser {
 		/* TODO: build the tree by parsing 'treeRepresentationText' */
         int bracketsCount = 0;
         int commaCount = 0;
-        Node root = new Node();
+        //Node root = new Node();
+        String[] rlc = new String[3];
+        int j = 0;
 
-        String split = treeRepresentationText.split(",");
+        if (treeRepresentationText.charAt(position) == ',' && treeRepresentationText.charAt(position+1) == ',') {
+        	Node node = new Node();
+        	position++;
+        	return node;
+        } else if (treeRepresentationText.charAt(position) == ',' && treeRepresentationText.charAt(position+1) == ')') {
+        	Node node = new Node();
+        	position++;
+        	return node;
+        } else if(treeRepresentationText.charAt(position++) == ',') {
+        	while (treeRepresentationText.charAt(position) != ',' || treeRepresentationText.charAt(position) != ')') {
+    			treeString.concat(treeRepresentationText.charAt(position++));
+    		}
+    		Node node = new Node( Integer.parseInt(treeString));
+
+    		return node
+        }
+
+        if(treeRepresentationText.charAt(position) == ')') {
+        	position++;
+        }
+
+
+    	if(treeRepresentationText.charAt(position++) == '(') {
+    		while (treeRepresentationText.charAt(position) != ',' || treeRepresentationText.charAt(position) != ')') {
+    			treeString.concat(treeRepresentationText.charAt(position++));
+    		}
+    		Node node = new Node( Integer.parseInt(treeString));
+    		treeString = "";
+    		bracketsCount++;
+    		node.setLeftChild(createTree(treeRepresentationText));
+    		node.setRightChild(createTree(treeRepresentationText));
+
+    		return node;
+    	}
+        
+
+
+
+
+
+
+        // String[] split = treeRepresentationText.split(",");
+        // for (int i = 0; i < split.length(); i++) {
+        // 	for (int j = 0; j < split[i].length; j++) {
+        // 		if ()
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
+        		
+        // 	}
+        // }
+
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == '(') {
+	       //      bracketsCount++;
+	       //      if (bracketsCount == 2) {
+	       //      	j++;
+	       //      }
+	       //      rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else if (treeRepresentationText.charAt(i) == ')') {
+	       //  	bracketsCount--;
+	       //  	if (bracketsCount == 0) {
+	       //      	break;
+	       //      }
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else {
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  }
+        // }
+
+        // for (int i = 0; i < 3; i++) {
+
+        // 	if (i == 0) {
+        // 		Node rt = new root((int)rlc[1]-48);
+        // 	}
+
+        // }
+        
+
+        // String[] split = treeRepresentationText.split(",");
+
+        // for (int i = 0; i < split.length; i++) {
+        // 	for (int j = 0; j < split[i].length(); j++) {
+        // 		if (split[i].charAt(j) == '(') {
+        // 			bracketsCount++;
+
+        // 		}
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+	      //   if (treeRepresentationText.charAt(i) == '(' {
+	      //       bracketsCount++;
+	      //   } else if (treeRepresentationText.charAt(i) == ')') {
+	      //       bracketsCount--;
+	      //   }
+	      //   if (bracketsCount == 0)
+		    	// return root;
+        // }
+
+        // String[] split = treeRepresentationText.split(",");
+        // for (int i = 0; i < split.length(); i++) {
+        // 	for (int j = 0; j < split[i].length; j++) {
+        // 		if ()
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
+        		
+        // 	}
+        // }
+
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == '(') {
+	       //      bracketsCount++;
+	       //      if (bracketsCount == 2) {
+	       //      	j++;
+	       //      }
+	       //      rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else if (treeRepresentationText.charAt(i) == ')') {
+	       //  	bracketsCount--;
+	       //  	if (bracketsCount == 0) {
+	       //      	break;
+	       //      }
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else {
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  }
+        // }
+
+        // for (int i = 0; i < 3; i++) {
+
+        // 	if (i == 0) {
+        // 		Node rt = new root((int)rlc[1]-48);
+        // 	}
+
+        // }
+        
+
+        // String[] split = treeRepresentationText.split(",");
+
+        // for (int i = 0; i < split.length; i++) {
+        // 	for (int j = 0; j < split[i].length(); j++) {
+        // 		if (split[i].charAt(j) == '(') {
+        // 			bracketsCount++;
+
+        // 		}
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+	      //   if (treeRepresentationText.charAt(i) == '(' {
+	      //       bracketsCount++;
+	      //   } else if (treeRepresentationText.charAt(i) == ')') {
+	      //       bracketsCount--;
+	      //   }
+	      //   if (bracketsCount == 0)
+		    	// return root;
+        // }// String[] split = treeRepresentationText.split(",");
+        // for (int i = 0; i < split.length(); i++) {
+        // 	for (int j = 0; j < split[i].length; j++) {
+        // 		if ()
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
+        		
+        // 	}
+        // }
+
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == '(') {
+	       //      bracketsCount++;
+	       //      if (bracketsCount == 2) {
+	       //      	j++;
+	       //      }
+	       //      rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else if (treeRepresentationText.charAt(i) == ')') {
+	       //  	bracketsCount--;
+	       //  	if (bracketsCount == 0) {
+	       //      	break;
+	       //      }
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else {
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  }
+        // }
+
+        // for (int i = 0; i < 3; i++) {
+
+        // 	if (i == 0) {
+        // 		Node rt = new root((int)rlc[1]-48);
+        // 	}
+
+        // }
+        
+
+        // String[] split = treeRepresentationText.split(",");
+
+        // for (int i = 0; i < split.length; i++) {
+        // 	for (int j = 0; j < split[i].length(); j++) {
+        // 		if (split[i].charAt(j) == '(') {
+        // 			bracketsCount++;
+
+        // 		}
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+	      //   if (treeRepresentationText.charAt(i) == '(' {
+	      //       bracketsCount++;
+	      //   } else if (treeRepresentationText.charAt(i) == ')') {
+	      //       bracketsCount--;
+	      //   }
+	      //   if (bracketsCount == 0)
+		    	// return root;
+        // }// String[] split = treeRepresentationText.split(",");
+        // for (int i = 0; i < split.length(); i++) {
+        // 	for (int j = 0; j < split[i].length; j++) {
+        // 		if ()
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
+        		
+        // 	}
+        // }
+
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == '(') {
+	       //      bracketsCount++;
+	       //      if (bracketsCount == 2) {
+	       //      	j++;
+	       //      }
+	       //      rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else if (treeRepresentationText.charAt(i) == ')') {
+	       //  	bracketsCount--;
+	       //  	if (bracketsCount == 0) {
+	       //      	break;
+	       //      }
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else {
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  }
+        // }
+
+        // for (int i = 0; i < 3; i++) {
+
+        // 	if (i == 0) {
+        // 		Node rt = new root((int)rlc[1]-48);
+        // 	}
+
+        // }
+        
+
+        // String[] split = treeRepresentationText.split(",");
+
+        // for (int i = 0; i < split.length; i++) {
+        // 	for (int j = 0; j < split[i].length(); j++) {
+        // 		if (split[i].charAt(j) == '(') {
+        // 			bracketsCount++;
+
+        // 		}
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+	      //   if (treeRepresentationText.charAt(i) == '(' {
+	      //       bracketsCount++;
+	      //   } else if (treeRepresentationText.charAt(i) == ')') {
+	      //       bracketsCount--;
+	      //   }
+	      //   if (bracketsCount == 0)
+		    	// return root;
+        // }// String[] split = treeRepresentationText.split(",");
+        // for (int i = 0; i < split.length(); i++) {
+        // 	for (int j = 0; j < split[i].length; j++) {
+        // 		if ()
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
+        		
+        // 	}
+        // }
+
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == '(') {
+	       //      bracketsCount++;
+	       //      if (bracketsCount == 2) {
+	       //      	j++;
+	       //      }
+	       //      rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else if (treeRepresentationText.charAt(i) == ')') {
+	       //  	bracketsCount--;
+	       //  	if (bracketsCount == 0) {
+	       //      	break;
+	       //      }
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else {
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  }
+        // }
+
+        // for (int i = 0; i < 3; i++) {
+
+        // 	if (i == 0) {
+        // 		Node rt = new root((int)rlc[1]-48);
+        // 	}
+
+        // }
+        
+
+        // String[] split = treeRepresentationText.split(",");
+
+        // for (int i = 0; i < split.length; i++) {
+        // 	for (int j = 0; j < split[i].length(); j++) {
+        // 		if (split[i].charAt(j) == '(') {
+        // 			bracketsCount++;
+
+        // 		}
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+	      //   if (treeRepresentationText.charAt(i) == '(' {
+	      //       bracketsCount++;
+	      //   } else if (treeRepresentationText.charAt(i) == ')') {
+	      //       bracketsCount--;
+	      //   }
+	      //   if (bracketsCount == 0)
+		    	// return root;
+        // }// String[] split = treeRepresentationText.split(",");
+        // for (int i = 0; i < split.length(); i++) {
+        // 	for (int j = 0; j < split[i].length; j++) {
+        // 		if ()
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
+        		
+        // 	}
+        // }
+
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == '(') {
+	       //      bracketsCount++;
+	       //      if (bracketsCount == 2) {
+	       //      	j++;
+	       //      }
+	       //      rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else if (treeRepresentationText.charAt(i) == ')') {
+	       //  	bracketsCount--;
+	       //  	if (bracketsCount == 0) {
+	       //      	break;
+	       //      }
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else {
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  }
+        // }
+
+        // for (int i = 0; i < 3; i++) {
+
+        // 	if (i == 0) {
+        // 		Node rt = new root((int)rlc[1]-48);
+        // 	}
+
+        // }
+        
+
+        // String[] split = treeRepresentationText.split(",");
+
+        // for (int i = 0; i < split.length; i++) {
+        // 	for (int j = 0; j < split[i].length(); j++) {
+        // 		if (split[i].charAt(j) == '(') {
+        // 			bracketsCount++;
+
+        // 		}
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+	      //   if (treeRepresentationText.charAt(i) == '(' {
+	      //       bracketsCount++;
+	      //   } else if (treeRepresentationText.charAt(i) == ')') {
+	      //       bracketsCount--;
+	      //   }
+	      //   if (bracketsCount == 0)
+		    	// return root;
+        // }// String[] split = treeRepresentationText.split(",");
+        // for (int i = 0; i < split.length(); i++) {
+        // 	for (int j = 0; j < split[i].length; j++) {
+        // 		if ()
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
+        		
+        // 	}
+        // }
+
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == '(') {
+	       //      bracketsCount++;
+	       //      if (bracketsCount == 2) {
+	       //      	j++;
+	       //      }
+	       //      rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else if (treeRepresentationText.charAt(i) == ')') {
+	       //  	bracketsCount--;
+	       //  	if (bracketsCount == 0) {
+	       //      	break;
+	       //      }
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else {
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  }
+        // }
+
+        // for (int i = 0; i < 3; i++) {
+
+        // 	if (i == 0) {
+        // 		Node rt = new root((int)rlc[1]-48);
+        // 	}
+
+        // }
+        
+
+        // String[] split = treeRepresentationText.split(",");
+
+        // for (int i = 0; i < split.length; i++) {
+        // 	for (int j = 0; j < split[i].length(); j++) {
+        // 		if (split[i].charAt(j) == '(') {
+        // 			bracketsCount++;
+
+        // 		}
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+	      //   if (treeRepresentationText.charAt(i) == '(' {
+	      //       bracketsCount++;
+	      //   } else if (treeRepresentationText.charAt(i) == ')') {
+	      //       bracketsCount--;
+	      //   }
+	      //   if (bracketsCount == 0)
+		    	// return root;
+        // }// String[] split = treeRepresentationText.split(",");
+        // for (int i = 0; i < split.length(); i++) {
+        // 	for (int j = 0; j < split[i].length; j++) {
+        // 		if ()
+        // 	}
+        // }
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
+        		
+        // 	}
+        // }
+
+
+        // for (int i = 0; i < treeRepresentationText.length(); i++) {
+        // 	if (treeRepresentationText.charAt(i) == '(') {
+	       //      bracketsCount++;
+	       //      if (bracketsCount == 2) {
+	       //      	j++;
+	       //      }
+	       //      rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else if (treeRepresentationText.charAt(i) == ')') {
+	       //  	bracketsCount--;
+	       //  	if (bracketsCount == 0) {
+	       //      	break;
+	       //      }
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  } else {
+	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
+	       //  }
+        // }
+
+        // for (int i = 0; i < 3; i++) {
+
+        // 	if (i == 0) {
+        // 		Node rt = new root((int)rlc[1]-48);
+        // 	}
+
+        // }
+        
+
+        // String[] split = treeRepresentationText.split(",");
+
+        // for (int i = 0; i < split.length; i++) {
+        // 	for (int j = 0; j < split[i].length(); j++) {
+        // 		if (split[i].charAt(j) == '(') {
+        // 			bracketsCount++;
+
+        // 		}
+        // 	}
+        // }
 
         // for (int i = 0; i < treeRepresentationText.length(); i++) {
 	      //   if (treeRepresentationText.charAt(i) == '(' {
