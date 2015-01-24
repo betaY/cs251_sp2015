@@ -43,7 +43,7 @@ public class TreeParser {
         } else if(treeRepresentationText.charAt(position) == ',') {
         	// System.out.println(position +": "+treeRepresentationText.charAt(position));
         	position++;
-        	System.out.println("49      :"+position);
+        	// System.out.println("49      :"+position);
         	while (treeRepresentationText.charAt(position) != ',' && treeRepresentationText.charAt(position) != ')') {
         		// System.out.println(position +": "+treeRepresentationText.charAt(position));
         		System.out.println(position +": "+treeRepresentationText.charAt(position));
