@@ -18,571 +18,105 @@ public class TreeParser {
         // String[] rlc = new String[3];
         int j = 0;
 
-        System.out.println(position +": "+treeRepresentationText.charAt(position));
+        //System.out.println(position +": "+treeRepresentationText.charAt(position));
 
-        if (treeRepresentationText.charAt(position) == ',' && treeRepresentationText.charAt(position+1) == ',') {
-        	Node node = new Node();
-        	Node nil = new Node(-1);
-        	node.setLeftChild(nil);
-        	node.setRightChild(nil);
-        	// System.out.println(position +": "+treeRepresentationText.charAt(position));
-        	position++;
-        	// System.out.println(position);
-        	// System.out.println(position +": "+treeRepresentationText.charAt(position));
-        	return node;
-        } else if (treeRepresentationText.charAt(position) == ',' && treeRepresentationText.charAt(position+1) == ')') {
-        	Node node = new Node();
-        	Node nil = new Node(-1);
-        	node.setLeftChild(nil);
-        	node.setRightChild(nil);
-        	// System.out.println(position +": "+treeRepresentationText.charAt(position));
-        	position++;
-        	// System.out.println(position);
-        	// System.out.println(position +": "+treeRepresentationText.charAt(position));
-        	return node;
-        } else if(treeRepresentationText.charAt(position) == ',') {
-        	// System.out.println(position +": "+treeRepresentationText.charAt(position));
-        	position++;
+        // if (treeRepresentationText.charAt(position) == ',' && treeRepresentationText.charAt(position+1) == ',') {
+        // 	Node node = new Node();
+        // 	Node nil = new Node(-1);
+        // 	node.setLeftChild(nil);
+        // 	node.setRightChild(nil);
+        // 	position++;
+        // 	return node;
+        // } else if (treeRepresentationText.charAt(position) == ',' && treeRepresentationText.charAt(position+1) == ')') {
+        // 	Node node = new Node();
+        // 	Node nil = new Node(-1);
+        // 	node.setLeftChild(nil);
+        // 	node.setRightChild(nil);
+        // 	// System.out.println(position +": "+treeRepresentationText.charAt(position));
+        // 	position++;
+        // 	// System.out.println(position);
+        // 	// System.out.println(position +": "+treeRepresentationText.charAt(position));
+        // 	return node;
+        // } else if(treeRepresentationText.charAt(position) == ',' && treeRepresentationText.charAt(position+1) != ')' && treeRepresentationText.charAt(position+1) != ',') {
+        // 	// System.out.println(position +": "+treeRepresentationText.charAt(position));
+        // 	position++;
+        //     return createTree(treeRepresentationText);
         	// System.out.println("49      :"+position);
-        	while (treeRepresentationText.charAt(position) != ',' && treeRepresentationText.charAt(position) != ')') {
-        		// System.out.println(position +": "+treeRepresentationText.charAt(position));
-        		System.out.println(position +": "+treeRepresentationText.charAt(position));
-    			treeString = treeString.concat(""+treeRepresentationText.charAt(position++));
-    			// System.out.println(position +": "+treeRepresentationText.charAt(position));
-    			// System.out.println(position +": "+treeRepresentationText.charAt(position));
-    		}
-    		Node node = new Node(Integer.parseInt(treeString));
-    		treeString = "";
+      //   	while (treeRepresentationText.charAt(position) != ',' && treeRepresentationText.charAt(position) != ')') {
+      //   		// System.out.println(position +": "+treeRepresentationText.charAt(position));
+      //   		System.out.println(position +": "+treeRepresentationText.charAt(position));
+    		// 	treeString = treeString.concat(""+treeRepresentationText.charAt(position++));
+    		// 	// System.out.println(position +": "+treeRepresentationText.charAt(position));
+    		// 	// System.out.println(position +": "+treeRepresentationText.charAt(position));
+    		// }
+    		// Node node = new Node(Integer.parseInt(treeString));
+    		// treeString = "";
+        // } else if(treeRepresentationText.charAt(position) == ')' /*&& treeRepresentationText.charAt(position-1) == ')'*/) {
+        // 	Node node = new Node(-1);
+        // 	System.out.println(position +"))): "+treeRepresentationText.charAt(position));
+	       //  position++;
+        // 	return node;
+        // } else
+        // if (position >= treeRepresentationText.length() ) {
+        //     // System.out.println(position +": "+treeRepresentationText.charAt(position));
+        //     Node node = new Node(-1);
+        //     return node;
+        // }
 
-    		return node;
-        } else if(treeRepresentationText.charAt(position) == ')' /*&& treeRepresentationText.charAt(position-1) == ')'*/) {
-        	Node node = new Node(-1);
-        	System.out.println(position +"))): "+treeRepresentationText.charAt(position));
-	        // if (position >= treeRepresentationText.length()) {
-	        // 	System.out.println("WTFFFFFFFFFFFFFFF");
-	        // 	return node;
-	        // }
-	        position++;
-        	// System.out.println(treeRepresentationText.charAt(position));
-        	return node;
-        } else if(treeRepresentationText.charAt(position) == '(') {
-    		// System.out.println(position +": "+treeRepresentationText.charAt(position));
-    		position++;
-    		//System.out.println("GGGGGGGG" + position + treeRepresentationText.charAt(position));
-    		while (treeRepresentationText.charAt(position) != ',' && treeRepresentationText.charAt(position) != ')') {
-    			System.out.println(position +": "+treeRepresentationText.charAt(position));
-    			treeString = treeString.concat(""+treeRepresentationText.charAt(position++));
-    			//System.out.println("str: "+treeString);
-    			// System.out.println(position +": "+treeRepresentationText.charAt(position));
-    		}
-    		Node node = new Node( Integer.parseInt(treeString));
-    		// Node node = new Node();
-    		// System.out.println("str: "+treeString + "GGGGGGGG "+ node.getid());
-    		treeString = "";
-    		// bracketsCount++;
+        if(treeRepresentationText.charAt(position) == '(') {
+    		position++; 
+    		Node node = createTree(treeRepresentationText);
+            // System.out.println("root: "+node.getid());
     		node.setLeftChild(createTree(treeRepresentationText));
+            // System.out.println(position+" root: "+node.getid()+" node left: "+node.getLeftChild().getid());
     		node.setRightChild(createTree(treeRepresentationText));
+            // System.out.println(position+" root: "+node.getid()+" node right: "+node.getLeftChild().getid());
+            System.out.println(position+" root: "+node.getid()+" node right: "+node.getLeftChild().getid()+" node left: "+node.getLeftChild().getid());
 
     		return node;
-    	} else {
-    		System.out.println(position +": "+treeRepresentationText.charAt(position));
-    		treeString = treeString.concat(""+treeRepresentationText.charAt(position++));
-    		Node node = new Node( Integer.parseInt(treeString));
-    		treeString = "";
+    	} else if (treeRepresentationText.charAt(position) == ',') {
+            if (treeRepresentationText.charAt(position+1) == ',' || treeRepresentationText.charAt(position+1) == ')') {
+                Node node = new Node();
+                Node nil = new Node(-1);
+                node.setLeftChild(nil);
+                node.setRightChild(nil);
+                position++;
+                return node;
+            }
+            position++;
+            // while (treeRepresentationText.charAt(position) != ',' && treeRepresentationText.charAt(position) != ')') {
+                 // System.out.println(position +": "+treeRepresentationText.charAt(position));
+            //     treeString = treeString.concat(""+treeRepresentationText.charAt(position++));
+            // }
+            Node node = createTree(treeRepresentationText);
+            // System.out.println("<,>"+node.getid());
+            //treeString = "";
+            // node.setLeftChild(createTree(treeRepresentationText));
+            // node.setRightChild(createTree(treeRepresentationText));
+            return node;
+        } else if (treeRepresentationText.charAt(position) == ')') {
+            Node nil = new Node(-1);
+            nil.setRightChild(nil);
+            nil.setLeftChild(nil);
+            System.out.println("position Number:"+position);
+            if (position == treeRepresentationText.length()) {
+                return node;
+            } else {
+                position++;
+                return node;
+            }
+        } else {
+
+            System.out.println("Enter else!!!!");
+            while (treeRepresentationText.charAt(position) != ',' && treeRepresentationText.charAt(position) != ')') {
+                //System.out.println(position +": "+treeRepresentationText.charAt(position));
+                treeString = treeString.concat(""+treeRepresentationText.charAt(position++));
+            }
+            Node node = new Node( Integer.parseInt(treeString));
+            treeString = "";
+            return node;
+        }
 
-    		node.setLeftChild(createTree(treeRepresentationText));
-    		node.setRightChild(createTree(treeRepresentationText));
-    		return node;
-    	}
-
-
-
-
-
-
-        // String[] split = treeRepresentationText.split(",");
-        // for (int i = 0; i < split.length(); i++) {
-        // 	for (int j = 0; j < split[i].length; j++) {
-        // 		if ()
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
-        		
-        // 	}
-        // }
-
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == '(') {
-	       //      bracketsCount++;
-	       //      if (bracketsCount == 2) {
-	       //      	j++;
-	       //      }
-	       //      rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else if (treeRepresentationText.charAt(i) == ')') {
-	       //  	bracketsCount--;
-	       //  	if (bracketsCount == 0) {
-	       //      	break;
-	       //      }
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else {
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  }
-        // }
-
-        // for (int i = 0; i < 3; i++) {
-
-        // 	if (i == 0) {
-        // 		Node rt = new root((int)rlc[1]-48);
-        // 	}
-
-        // }
-        
-
-        // String[] split = treeRepresentationText.split(",");
-
-        // for (int i = 0; i < split.length; i++) {
-        // 	for (int j = 0; j < split[i].length(); j++) {
-        // 		if (split[i].charAt(j) == '(') {
-        // 			bracketsCount++;
-
-        // 		}
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-	      //   if (treeRepresentationText.charAt(i) == '(' {
-	      //       bracketsCount++;
-	      //   } else if (treeRepresentationText.charAt(i) == ')') {
-	      //       bracketsCount--;
-	      //   }
-	      //   if (bracketsCount == 0)
-		    	// return root;
-        // }
-
-        // String[] split = treeRepresentationText.split(",");
-        // for (int i = 0; i < split.length(); i++) {
-        // 	for (int j = 0; j < split[i].length; j++) {
-        // 		if ()
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
-        		
-        // 	}
-        // }
-
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == '(') {
-	       //      bracketsCount++;
-	       //      if (bracketsCount == 2) {
-	       //      	j++;
-	       //      }
-	       //      rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else if (treeRepresentationText.charAt(i) == ')') {
-	       //  	bracketsCount--;
-	       //  	if (bracketsCount == 0) {
-	       //      	break;
-	       //      }
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else {
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  }
-        // }
-
-        // for (int i = 0; i < 3; i++) {
-
-        // 	if (i == 0) {
-        // 		Node rt = new root((int)rlc[1]-48);
-        // 	}
-
-        // }
-        
-
-        // String[] split = treeRepresentationText.split(",");
-
-        // for (int i = 0; i < split.length; i++) {
-        // 	for (int j = 0; j < split[i].length(); j++) {
-        // 		if (split[i].charAt(j) == '(') {
-        // 			bracketsCount++;
-
-        // 		}
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-	      //   if (treeRepresentationText.charAt(i) == '(' {
-	      //       bracketsCount++;
-	      //   } else if (treeRepresentationText.charAt(i) == ')') {
-	      //       bracketsCount--;
-	      //   }
-	      //   if (bracketsCount == 0)
-		    	// return root;
-        // }// String[] split = treeRepresentationText.split(",");
-        // for (int i = 0; i < split.length(); i++) {
-        // 	for (int j = 0; j < split[i].length; j++) {
-        // 		if ()
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
-        		
-        // 	}
-        // }
-
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == '(') {
-	       //      bracketsCount++;
-	       //      if (bracketsCount == 2) {
-	       //      	j++;
-	       //      }
-	       //      rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else if (treeRepresentationText.charAt(i) == ')') {
-	       //  	bracketsCount--;
-	       //  	if (bracketsCount == 0) {
-	       //      	break;
-	       //      }
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else {
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  }
-        // }
-
-        // for (int i = 0; i < 3; i++) {
-
-        // 	if (i == 0) {
-        // 		Node rt = new root((int)rlc[1]-48);
-        // 	}
-
-        // }
-        
-
-        // String[] split = treeRepresentationText.split(",");
-
-        // for (int i = 0; i < split.length; i++) {
-        // 	for (int j = 0; j < split[i].length(); j++) {
-        // 		if (split[i].charAt(j) == '(') {
-        // 			bracketsCount++;
-
-        // 		}
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-	      //   if (treeRepresentationText.charAt(i) == '(' {
-	      //       bracketsCount++;
-	      //   } else if (treeRepresentationText.charAt(i) == ')') {
-	      //       bracketsCount--;
-	      //   }
-	      //   if (bracketsCount == 0)
-		    	// return root;
-        // }// String[] split = treeRepresentationText.split(",");
-        // for (int i = 0; i < split.length(); i++) {
-        // 	for (int j = 0; j < split[i].length; j++) {
-        // 		if ()
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
-        		
-        // 	}
-        // }
-
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == '(') {
-	       //      bracketsCount++;
-	       //      if (bracketsCount == 2) {
-	       //      	j++;
-	       //      }
-	       //      rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else if (treeRepresentationText.charAt(i) == ')') {
-	       //  	bracketsCount--;
-	       //  	if (bracketsCount == 0) {
-	       //      	break;
-	       //      }
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else {
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  }
-        // }
-
-        // for (int i = 0; i < 3; i++) {
-
-        // 	if (i == 0) {
-        // 		Node rt = new root((int)rlc[1]-48);
-        // 	}
-
-        // }
-        
-
-        // String[] split = treeRepresentationText.split(",");
-
-        // for (int i = 0; i < split.length; i++) {
-        // 	for (int j = 0; j < split[i].length(); j++) {
-        // 		if (split[i].charAt(j) == '(') {
-        // 			bracketsCount++;
-
-        // 		}
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-	      //   if (treeRepresentationText.charAt(i) == '(' {
-	      //       bracketsCount++;
-	      //   } else if (treeRepresentationText.charAt(i) == ')') {
-	      //       bracketsCount--;
-	      //   }
-	      //   if (bracketsCount == 0)
-		    	// return root;
-        // }// String[] split = treeRepresentationText.split(",");
-        // for (int i = 0; i < split.length(); i++) {
-        // 	for (int j = 0; j < split[i].length; j++) {
-        // 		if ()
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
-        		
-        // 	}
-        // }
-
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == '(') {
-	       //      bracketsCount++;
-	       //      if (bracketsCount == 2) {
-	       //      	j++;
-	       //      }
-	       //      rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else if (treeRepresentationText.charAt(i) == ')') {
-	       //  	bracketsCount--;
-	       //  	if (bracketsCount == 0) {
-	       //      	break;
-	       //      }
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else {
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  }
-        // }
-
-        // for (int i = 0; i < 3; i++) {
-
-        // 	if (i == 0) {
-        // 		Node rt = new root((int)rlc[1]-48);
-        // 	}
-
-        // }
-        
-
-        // String[] split = treeRepresentationText.split(",");
-
-        // for (int i = 0; i < split.length; i++) {
-        // 	for (int j = 0; j < split[i].length(); j++) {
-        // 		if (split[i].charAt(j) == '(') {
-        // 			bracketsCount++;
-
-        // 		}
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-	      //   if (treeRepresentationText.charAt(i) == '(' {
-	      //       bracketsCount++;
-	      //   } else if (treeRepresentationText.charAt(i) == ')') {
-	      //       bracketsCount--;
-	      //   }
-	      //   if (bracketsCount == 0)
-		    	// return root;
-        // }// String[] split = treeRepresentationText.split(",");
-        // for (int i = 0; i < split.length(); i++) {
-        // 	for (int j = 0; j < split[i].length; j++) {
-        // 		if ()
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
-        		
-        // 	}
-        // }
-
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == '(') {
-	       //      bracketsCount++;
-	       //      if (bracketsCount == 2) {
-	       //      	j++;
-	       //      }
-	       //      rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else if (treeRepresentationText.charAt(i) == ')') {
-	       //  	bracketsCount--;
-	       //  	if (bracketsCount == 0) {
-	       //      	break;
-	       //      }
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else {
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  }
-        // }
-
-        // for (int i = 0; i < 3; i++) {
-
-        // 	if (i == 0) {
-        // 		Node rt = new root((int)rlc[1]-48);
-        // 	}
-
-        // }
-        
-
-        // String[] split = treeRepresentationText.split(",");
-
-        // for (int i = 0; i < split.length; i++) {
-        // 	for (int j = 0; j < split[i].length(); j++) {
-        // 		if (split[i].charAt(j) == '(') {
-        // 			bracketsCount++;
-
-        // 		}
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-	      //   if (treeRepresentationText.charAt(i) == '(' {
-	      //       bracketsCount++;
-	      //   } else if (treeRepresentationText.charAt(i) == ')') {
-	      //       bracketsCount--;
-	      //   }
-	      //   if (bracketsCount == 0)
-		    	// return root;
-        // }// String[] split = treeRepresentationText.split(",");
-        // for (int i = 0; i < split.length(); i++) {
-        // 	for (int j = 0; j < split[i].length; j++) {
-        // 		if ()
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
-        		
-        // 	}
-        // }
-
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == '(') {
-	       //      bracketsCount++;
-	       //      if (bracketsCount == 2) {
-	       //      	j++;
-	       //      }
-	       //      rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else if (treeRepresentationText.charAt(i) == ')') {
-	       //  	bracketsCount--;
-	       //  	if (bracketsCount == 0) {
-	       //      	break;
-	       //      }
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else {
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  }
-        // }
-
-        // for (int i = 0; i < 3; i++) {
-
-        // 	if (i == 0) {
-        // 		Node rt = new root((int)rlc[1]-48);
-        // 	}
-
-        // }
-        
-
-        // String[] split = treeRepresentationText.split(",");
-
-        // for (int i = 0; i < split.length; i++) {
-        // 	for (int j = 0; j < split[i].length(); j++) {
-        // 		if (split[i].charAt(j) == '(') {
-        // 			bracketsCount++;
-
-        // 		}
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-	      //   if (treeRepresentationText.charAt(i) == '(' {
-	      //       bracketsCount++;
-	      //   } else if (treeRepresentationText.charAt(i) == ')') {
-	      //       bracketsCount--;
-	      //   }
-	      //   if (bracketsCount == 0)
-		    	// return root;
-        // }// String[] split = treeRepresentationText.split(",");
-        // for (int i = 0; i < split.length(); i++) {
-        // 	for (int j = 0; j < split[i].length; j++) {
-        // 		if ()
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == ',' && treeRepresentationText.charAt(i) == ',') {
-        		
-        // 	}
-        // }
-
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-        // 	if (treeRepresentationText.charAt(i) == '(') {
-	       //      bracketsCount++;
-	       //      if (bracketsCount == 2) {
-	       //      	j++;
-	       //      }
-	       //      rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else if (treeRepresentationText.charAt(i) == ')') {
-	       //  	bracketsCount--;
-	       //  	if (bracketsCount == 0) {
-	       //      	break;
-	       //      }
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  } else {
-	       //  	rlc[j].concat(treeRepresentationText.charAt(i));
-	       //  }
-        // }
-
-        // for (int i = 0; i < 3; i++) {
-
-        // 	if (i == 0) {
-        // 		Node rt = new root((int)rlc[1]-48);
-        // 	}
-
-        // }
-        
-
-        // String[] split = treeRepresentationText.split(",");
-
-        // for (int i = 0; i < split.length; i++) {
-        // 	for (int j = 0; j < split[i].length(); j++) {
-        // 		if (split[i].charAt(j) == '(') {
-        // 			bracketsCount++;
-
-        // 		}
-        // 	}
-        // }
-
-        // for (int i = 0; i < treeRepresentationText.length(); i++) {
-	      //   if (treeRepresentationText.charAt(i) == '(' {
-	      //       bracketsCount++;
-	      //   } else if (treeRepresentationText.charAt(i) == ')') {
-	      //       bracketsCount--;
-	      //   }
-	      //   if (bracketsCount == 0)
-		    	// return root;
-        // }
 	}
 	
 	public static String traversePath(Node root, String direction) {
@@ -626,6 +160,8 @@ public class TreeParser {
 			System.out.println("Testcase " + (i + 1) + ": " + treeRepresentationText);
 			
 			Node root = createTree(treeRepresentationText);
+
+            System.out.println("root: "+root.getid()+"left: "+root.getLeftChild().getid()+"right: "+root.getRightChild().getid());
 			
 			int nPaths = in.nextInt();
 			in.nextLine();
