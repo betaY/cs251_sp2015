@@ -101,9 +101,9 @@ public class PropertyTesters {
 
 		for(int i = 0; i < numberOfSongs && isConsistent; ++i) {
 			isConsistent = isConsistent && (songsHeap[songPositions[i]].getNumberOfTimesPlayedSoFar() == songsCounts[i]); 
-			System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-= songsCounts = "+isConsistent+" -=-=-=-=-=-=-=-=-=-=-=-=-=");
+			// System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-= songsCounts = "+isConsistent+" -=-=-=-=-=-=-=-=-=-=-=-=-=");
 			isConsistent = isConsistent && (songPositions[songsHeap[i].getSongID()] == i);
-			System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-= songPositions = "+isConsistent+" -=-=-=-=-=-=-=-=-=-=-=-=-=");
+			// System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-= songPositions = "+isConsistent+" -=-=-=-=-=-=-=-=-=-=-=-=-=");
 		}
 
 		return isConsistent;
