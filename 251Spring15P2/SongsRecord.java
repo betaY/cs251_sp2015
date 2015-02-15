@@ -38,16 +38,36 @@ public class SongsRecord {
 		/* TODO Write code to:
 			(1) Turn 'songsHeap' into a valid heap
 			(2) Populate 'songsCount' and 'songsPosition' correctly */
+
+
 		buildMaxHeap(songsHeap);
 		for (int i = 0; i < songsHeap.length; i++) {
-			songsCount[i] = songsHeap[i].getNumberOfTimesPlayedSoFar();
+			// songsCount[i] = songsHeap[i].getNumberOfTimesPlayedSoFar();
+            // songsPosition[i] = songsHeap[i].getSongID();
+            songsPosition[songsHeap[i].getSongID()] = i;
+            //songsCount[i] = songsHeap[songsPosition[i]].getNumberOfTimesPlayedSoFar();
+            // songsCount[songsHeap[i].getSongID()] = songsHeap[songsPosition[i]].getNumberOfTimesPlayedSoFar();
 		}
+		for (int i = 0; i < songsHeap.length; i++) {
+			songsCount[i] = songsHeap[songsPosition[i]].getNumberOfTimesPlayedSoFar();
+            System.out.printf("-=-=-=-=-=-=-=-=-=-=-=-=-= songID = %d, times = %d -=-=-=-=-=-=-=-=-=-=-=-=-=\n",
+             songsHeap[i].getSongID(), songsHeap[i].getNumberOfTimesPlayedSoFar());
+		}
+
+		// System.out.println("");
+		// for (int i = 0; i < songsHeap.length; i++) {
+		// 	System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-= songsPosition["+i+"] = "+songsPosition[i]+" -=-=-=-=-=-=-=-=-=-=-=-=-=");
+		// 	System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-= songsCount["+i+"] = "+songsCount[i]+" -=-=-=-=-=-=-=-=-=-=-=-=-=");
+		// 	System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-= songsHeap[songPositions["+i+"]].getNumberOfTimesPlayedSoFar() = "+songsHeap[songsPosition[i]].getNumberOfTimesPlayedSoFar()+" -=-=-=-=-=-=-=-=-=-=-=-=-=");
+		// }
+
+
 	}
 
 	// build maxHeap
 	public void buildMaxHeap(Song[] songsHeap) {
 		int startIndex = getParentIndex(songsHeap.length - 1);
-		for (int i = startIndex; i >= 0; i++) {
+		for (int i = startIndex; i >= 0; i--) {
 			maxHeapify(songsHeap, songsHeap.length, i);
 		}
 	}
@@ -57,19 +77,39 @@ public class SongsRecord {
 		int right = getRightChildIndex(index);
 
 		int largest = index;
+		// System.out.printf("-=-=-=-=-=-=-=-=-=-=-=-=-= heapsize = %d -=-=-=-=-=-=-=-=-=-=-=-=-=\n",heapsize);
+		// System.out.printf("-=-=-=-=-=-=-=-=-=-=-=-=-= left = %d -=-=-=-=-=-=-=-=-=-=-=-=-=\n",left);
+		// System.out.printf("-=-=-=-=-=-=-=-=-=-=-=-=-= right = %d -=-=-=-=-=-=-=-=-=-=-=-=-=\n",right);
+		// System.out.printf("-=-=-=-=-=-=-=-=-=-=-=-=-= largest = %d -=-=-=-=-=-=-=-=-=-=-=-=-=\n",largest);
 
-		if (left < heapsize && Song[index].getNumberOfTimesPlayedSoFar() < Song[left].getNumberOfTimesPlayedSoFar()) {
-			largest = left;
+		if (left < heapsize && songsHeap[largest].getNumberOfTimesPlayedSoFar() <= songsHeap[left].getNumberOfTimesPlayedSoFar()) {
+			if (songsHeap[largest].getNumberOfTimesPlayedSoFar() == songsHeap[left].getNumberOfTimesPlayedSoFar()) {
+				if (songsHeap[largest].getSongID() > songsHeap[left].getSongID())
+					largest = left;
+				else {
+					largest = largest;
+				}
+			} else {
+				largest = left;
+			}
 		}
-		if (right < heapsize && Song[largest].getNumberOfTimesPlayedSoFar() < Song[right].getNumberOfTimesPlayedSoFar()) {
-			largest = right;
+		if (right < heapsize && songsHeap[largest].getNumberOfTimesPlayedSoFar() <= songsHeap[right].getNumberOfTimesPlayedSoFar()) {
+			if (songsHeap[largest].getNumberOfTimesPlayedSoFar() == songsHeap[right].getNumberOfTimesPlayedSoFar()) {
+				if (songsHeap[largest].getSongID() > songsHeap[right].getSongID())
+					largest = right;
+				else {
+					largest = largest;
+				}
+			} else {
+				largest = right;
+			}
 		}
 
 		if (largest != index) {
-			int tmp = Song[index];
-			Song[index] = Song[largest];
-			Song[largest] = tmp;
-			maxHeapify(Song, heapsize, largest);
+			Song tmp = songsHeap[index];
+			songsHeap[index] = songsHeap[largest];
+			songsHeap[largest] = tmp;
+			maxHeapify(songsHeap, heapsize, largest);
 		}
 	}
 
@@ -90,6 +130,20 @@ public class SongsRecord {
 			(1) Read 'songsPosition' and get the position of the song in the heap. Then increase the count by 1. After increasing the count by 1, move the song up if required and ensure that the heap invariant is maintained.
 			(2) Modify 'songsPosition' and 'songsCount' accordingly to ensure that everything is consistent.
 		*/
+        songsHeap[songsPosition[songID]].increasePlayedCountByOne();
+        if (PropertyTesters.testForHeapness(songsHeap) == false) {
+            buildMaxHeap(songsHeap);
+            for (int i = 0; i < songsHeap.length; i++) {             
+                songsCount[i] = songsHeap[i].getNumberOfTimesPlayedSoFar();            
+                // songsPosition[i] = songsHeap[i].getSongID();      
+                songsPosition[songsHeap[i].getSongID()] = i;
+            }
+        } else {
+            for (int i = 0; i < songsHeap.length; i++) {
+                songsCount[i] = songsHeap[i].getNumberOfTimesPlayedSoFar();
+                songsPosition[songsHeap[i].getSongID()] = i;
+            }
+        }
 	}
 
 	public String getTopTwo() {
@@ -107,6 +161,13 @@ public class SongsRecord {
 			runnerUp = 1;
 		output += "; " + Integer.toString(songsHeap[runnerUp].getSongID());
 		output += " (" + Integer.toString(songsHeap[runnerUp].getNumberOfTimesPlayedSoFar())  + ")";
+
+		output += "\n";
+		for (int i = 0; i < songsHeap.length; i++) {
+			output += Integer.toString(songsHeap[i].getSongID()) + " (" + Integer.toString(songsHeap[i].getNumberOfTimesPlayedSoFar())  + ")\n";
+		}
+
+
 
 		return output;
 	}
