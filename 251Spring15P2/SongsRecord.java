@@ -70,6 +70,30 @@ public class SongsRecord {
 		for (int i = startIndex; i >= 0; i--) {
 			maxHeapify(songsHeap, songsHeap.length, i);
 		}
+		for (int i = startIndex; i >= 0; i--) {
+			checkId(songsHeap, songsHeap.length, i);
+		}
+	}
+	public void checkId(Song[] songsHeap, int heapsize, int index) {
+		int left = getLeftChildIndex(index);
+		int right = getRightChildIndex(index);
+		int largest = index;
+		if (left < heapsize && songsHeap[largest].getNumberOfTimesPlayedSoFar() == songsHeap[left].getNumberOfTimesPlayedSoFar()) {
+			if (songsHeap[largest].getSongID() > songsHeap[left].getSongID()) {
+				largest = left;
+			}
+		}
+		if (right < heapsize && songsHeap[largest].getNumberOfTimesPlayedSoFar() == songsHeap[right].getNumberOfTimesPlayedSoFar()) {
+			if (songsHeap[largest].getSongID() > songsHeap[right].getSongID()) {
+				largest = right;
+			}
+		}
+		if (largest != index) {
+			Song tmp = songsHeap[index];
+			songsHeap[index] = songsHeap[largest];
+			songsHeap[largest] = tmp;
+			checkId(songsHeap, heapsize, largest);
+		}
 	}
 
 	public static void maxHeapify(Song[] songsHeap, int heapsize, int index) {
