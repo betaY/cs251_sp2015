@@ -35,33 +35,15 @@ public class SongsRecord {
 	}
 
 	public void process() {
-		/* TODO Write code to:
-			(1) Turn 'songsHeap' into a valid heap
-			(2) Populate 'songsCount' and 'songsPosition' correctly */
 
 
 		buildMaxHeap(songsHeap);
 		for (int i = 0; i < songsHeap.length; i++) {
-			// songsCount[i] = songsHeap[i].getNumberOfTimesPlayedSoFar();
-            // songsPosition[i] = songsHeap[i].getSongID();
             songsPosition[songsHeap[i].getSongID()] = i;
-            //songsCount[i] = songsHeap[songsPosition[i]].getNumberOfTimesPlayedSoFar();
-            // songsCount[songsHeap[i].getSongID()] = songsHeap[songsPosition[i]].getNumberOfTimesPlayedSoFar();
 		}
 		for (int i = 0; i < songsHeap.length; i++) {
 			songsCount[i] = songsHeap[songsPosition[i]].getNumberOfTimesPlayedSoFar();
-            // System.out.printf("-=-=-=-=-=-=-=-=-=-=-=-=-= songID = %d, times = %d -=-=-=-=-=-=-=-=-=-=-=-=-=\n",
-            //  songsHeap[i].getSongID(), songsHeap[i].getNumberOfTimesPlayedSoFar());
 		}
-
-		// System.out.println("");
-		// for (int i = 0; i < songsHeap.length; i++) {
-		// 	System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-= songsPosition["+i+"] = "+songsPosition[i]+" -=-=-=-=-=-=-=-=-=-=-=-=-=");
-		// 	System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-= songsCount["+i+"] = "+songsCount[i]+" -=-=-=-=-=-=-=-=-=-=-=-=-=");
-		// 	System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-= songsHeap[songPositions["+i+"]].getNumberOfTimesPlayedSoFar() = "+songsHeap[songsPosition[i]].getNumberOfTimesPlayedSoFar()+" -=-=-=-=-=-=-=-=-=-=-=-=-=");
-		// }
-
-
 	}
 
 	// build maxHeap
@@ -74,6 +56,8 @@ public class SongsRecord {
 			checkId(songsHeap, songsHeap.length, i);
 		}
 	}
+
+	// check id order
 	public void checkId(Song[] songsHeap, int heapsize, int index) {
 		int left = getLeftChildIndex(index);
 		int right = getRightChildIndex(index);
@@ -101,10 +85,6 @@ public class SongsRecord {
 		int right = getRightChildIndex(index);
 
 		int largest = index;
-		// System.out.printf("-=-=-=-=-=-=-=-=-=-=-=-=-= heapsize = %d -=-=-=-=-=-=-=-=-=-=-=-=-=\n",heapsize);
-		// System.out.printf("-=-=-=-=-=-=-=-=-=-=-=-=-= left = %d -=-=-=-=-=-=-=-=-=-=-=-=-=\n",left);
-		// System.out.printf("-=-=-=-=-=-=-=-=-=-=-=-=-= right = %d -=-=-=-=-=-=-=-=-=-=-=-=-=\n",right);
-		// System.out.printf("-=-=-=-=-=-=-=-=-=-=-=-=-= largest = %d -=-=-=-=-=-=-=-=-=-=-=-=-=\n",largest);
 
 		if (left < heapsize && songsHeap[largest].getNumberOfTimesPlayedSoFar() <= songsHeap[left].getNumberOfTimesPlayedSoFar()) {
 			if (songsHeap[largest].getNumberOfTimesPlayedSoFar() == songsHeap[left].getNumberOfTimesPlayedSoFar()) {
@@ -150,30 +130,7 @@ public class SongsRecord {
 
 	
 	public void addSongOccurrence(int songID) {
-		/* TODO Write code to:
-			(1) Read 'songsPosition' and get the position of the song in the heap. Then increase the count by 1. After increasing the count by 1, move the song up if required and ensure that the heap invariant is maintained.
-			(2) Modify 'songsPosition' and 'songsCount' accordingly to ensure that everything is consistent.
-		*/
         songsHeap[songsPosition[songID]].increasePlayedCountByOne();
-        // System.out.println("-----------------------"+PropertyTesters.testForHeapness(songsHeap)+"--------------------");
-   //      if (PropertyTesters.testForHeapness(songsHeap) == false) {
-   //          buildMaxHeap(songsHeap);
-   //          for (int i = 0; i < songsHeap.length; i++) {
-   //          	songsPosition[songsHeap[i].getSongID()] = i;
-			// }
-			// for (int i = 0; i < songsHeap.length; i++) {
-			// 	songsCount[i] = songsHeap[songsPosition[i]].getNumberOfTimesPlayedSoFar();
-			// }
-
-   //      } else {
-        	
-   //          for (int i = 0; i < songsHeap.length; i++) {
-   //          	songsPosition[songsHeap[i].getSongID()] = i;
-			// }
-			// for (int i = 0; i < songsHeap.length; i++) {
-			// 	songsCount[i] = songsHeap[songsPosition[i]].getNumberOfTimesPlayedSoFar();
-			// }
-   //      }
         buildMaxHeap(songsHeap);
         for (int i = 0; i < songsHeap.length; i++) {
             	songsPosition[songsHeap[i].getSongID()] = i;
@@ -199,13 +156,6 @@ public class SongsRecord {
 			runnerUp = 1;
 		output += "; " + Integer.toString(songsHeap[runnerUp].getSongID());
 		output += " (" + Integer.toString(songsHeap[runnerUp].getNumberOfTimesPlayedSoFar())  + ")";
-
-		// output += "\n";
-		// for (int i = 0; i < songsHeap.length; i++) {
-		// 	output += Integer.toString(songsHeap[i].getSongID()) + " (" + Integer.toString(songsHeap[i].getNumberOfTimesPlayedSoFar())  + ")\n";
-		// }
-
-
 
 		return output;
 	}
