@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Stack;
 
+import java.util.Collections;
+
 public class Polynomial {
 	List<ExpressionAtom> infixExpression = new ArrayList<ExpressionAtom>();
 	
@@ -87,13 +89,13 @@ public class Polynomial {
 
 	private int precedence(ExpressionAtom token) {
 		if(token.getVariablesOrOperator().equals("+") || token.getVariablesOrOperator().equals("-") ) {
-			return 1;
-		} else if (token.getVariablesOrOperator().equals("*") || token.getVariablesOrOperator().equals("/") ) {
 			return 2;
+		} else if (token.getVariablesOrOperator().equals("*") || token.getVariablesOrOperator().equals("/") ) {
+			return 4;
 		} else if (token.getVariablesOrOperator().equals("^") ) {
-			return 3;
+			return 6;
 		} else {
-			return 0;
+			return 1;
 		}
 	}
 	
@@ -109,133 +111,198 @@ public class Polynomial {
 		List<ListRepresentation> op = new ArrayList<ListRepresentation>();
 		Stack<ExpressionAtom> trans = new Stack<ExpressionAtom>();
 
-		ExpressionAtom token = new ExpressionAtom("#", AtomType.OPERATOR, 0);
+		ExpressionAtom token = new ExpressionAtom("#", AtomType.OPERATOR, 1);
 		trans.push(token);
 
-		// while (!trans.empty()) {
-		// 	System.out.println("--------"+trans.peek().getNodeVal().getVariablesOrOperator()+"--------");
-		// 	prefix = trans.pop();
-		// 	// prefix.operands = operands;
-		// }
-		// System.out.println("--------"+trans.peek().getNodeVal().getVariablesOrOperator()+"--------");
 		Utils.printExpression(this.infixExpression);
 		for(int i = this.infixExpression.size(); i > 0; i--) {
 			prefix = new ListRepresentation();
 			// token = new ExpressionAtom();
 
 			token = this.infixExpression.get(i-1);
-			System.out.println(token.getAtomType() == AtomType.OPERAND);
+			// System.out.println(token.getAtomType() == AtomType.OPERAND);
 			if(token.getAtomType() == AtomType.OPERAND) {
 
 				prefix.setNodeVal(token);
 
-				if(token.getCoefficient() < 0) {
-					prefix.setNegative(true);
-				} else {
-					prefix.setNegative(false);
-				}
+				// if(token.getCoefficient() < 0) {
+				// 	prefix.setNegative(true);
+				// } else {
+				// 	prefix.setNegative(false);
+				// }
 
 				op.add(prefix);
 				// prefix.operands = null;
 				// Utils.printListRepresentation(prefix);
 				// System.out.println("\ni == " + i +" "+ operands.size());
-				for(int j = 0 ; j < op.size(); j++) {
-					System.out.println(op.get(j).getNodeVal().getVariablesOrOperator() + "-----" + j);
-				}
+				// for(int j = 0 ; j < op.size(); j++) {
+				// 	System.out.println(op.get(j).getNodeVal().getVariablesOrOperator() + "-----" + j);
+				// }
 
 
 
 				// prefix.operands = operands;
 			} else {
-				for(int j = 0 ; j < op.size(); j++) {
-					System.out.println(op.get(j).getNodeVal().getVariablesOrOperator() + "-----" + j);
-				}
+				// for(int j = 0 ; j < op.size(); j++) {
+				// 	System.out.println(op.get(j).getNodeVal().getVariablesOrOperator() + "-----" + j);
+				// }
+				// Utils.printListRepresentation(prefix);
+				// System.out.println("Stack size " + trans.size() + " token is " + token.getVariablesOrOperator());
+				// System.out.println("OP size " + op.size());
+
 				if (token.getVariablesOrOperator().equals(")") ) {
 					prefix.setNodeVal(token);
-
-					// trans.push(prefix);
 					trans.push(prefix.getNodeVal());
-
 				} else if (token.getVariablesOrOperator().equals("(") ){
-					while (!trans.peek().getVariablesOrOperator().equals(")") ) {
-						prefix.setNodeVal(trans.pop() );
-						// prefix.operands = operands;
-						prefix.operands = op;
-						op = new ArrayList<ListRepresentation>();
-						op.add(prefix); 
-						// op.clear();
-						// op.add(prefix);
-						// Utils.printListRepresentation(prefix);
-						// System.out.println();
-						// operands.clear();
-						// operands.add(prefix);
+					while (!trans.peek().getVariablesOrOperator().equals(")") && trans.size() > 0) {
+						prefix = new ListRepresentation();
+						// System.out.println("---same precedence-----"+trans.peek().getVariablesOrOperator()+"--------");
+
+						if (trans.size() > 1) {
+							List<ListRepresentation> temp = new ArrayList<ListRepresentation>(); 
+							prefix.setNodeVal(trans.pop());
+
+							Collections.reverse(op);
+
+							temp.add(op.remove(0));
+							temp.add(op.remove(0));
+
+							Collections.reverse(op);
+							
+							prefix.operands = temp;
+							Utils.printListRepresentation(prefix);
+							System.out.println("");
+
+							if(prefix.getNodeVal().getVariablesOrOperator().equals("-")) {
+								prefix.getNodeVal().setVariablesOrOperator("+");
+								// prefix.setNegative(true);
+								if (prefix.operands.size() > 0) {
+									// ListRepresentation setN = new ListRepresentation();
+									// setN = prefix();
+									if(prefix.operands.get(1).operands.size() > 0) {
+										prefix.operands.get(1).setNegative(true);
+									}else {
+										prefix.operands.get(1).getNodeVal().setCoefficient(prefix.operands.get(1).getNodeVal().getCoefficient() * -1);	
+									}
+
+								} else {
+									prefix.setNegative(true);
+								}
+							}
+
+							
+							// op = new ArrayList<ListRepresentation>();
+							op.add(prefix);
+						} else {
+							Collections.reverse(op);
+							prefix.operands = op;
+							op.add(prefix);
+						}
 					}
 					trans.pop();
 				} else {
-					// System.out.println("-----+---"+trans.peek().getVariablesOrOperator()+"--------");
 					prefix.setNodeVal(token);
-					// prefix.operands = operands;
-					// operands.clear();
-
-					// while (!trans.empty()) {
-					// 	System.out.println("--------"+trans.peek().getNodeVal().getVariablesOrOperator()+"--------");
-					// 	prefix = trans.pop();
-					// 	// prefix.operands = operands;
-					// }
-
-					// System.out.println("--------"+token.getVariablesOrOperator()+"--------");
-					// System.out.println("--------"+trans.peek().getVariablesOrOperator()+"--------");
-					// System.out.println("--------"+precedence(token)+"\t"+precedence(trans.peek() )+"--------");
 					if (precedence(token) >= precedence(trans.peek() ) ) {
-						// if (!trans.peek().getVariablesOrOperator().equals("#")) {
-						// 	prefix.operands = op;
-						// 	op = new ArrayList<ListRepresentation>();
-						// 	op.add(prefix);
-						// }
 						trans.push(prefix.getNodeVal());
-						// Utils.printListRepresentation(prefix);
 					} else {
-						while (precedence(token) <= precedence(trans.peek() ) ) {
-							prefix.setNodeVal(trans.pop());
-							// prefix.operands = operands;
-							// System.out.println("asdadsasdasdasd");
+						while (precedence(token) < precedence(trans.peek() ) ) {
+							prefix = new ListRepresentation();
+							// System.out.println("---same precedence-----"+trans.peek().getVariablesOrOperator()+"--------");
+							// System.out.println(token.getVariablesOrOperator());
+							if (trans.size() > 1) {
+								List<ListRepresentation> temp = new ArrayList<ListRepresentation>(); 
+								prefix.setNodeVal(trans.pop());
+								Collections.reverse(op);
 
-							// Utils.printListRepresentation(prefix);
-							// operands.clear();
-							// operands.add(prefix);
+								temp.add(op.remove(0));
+								temp.add(op.remove(0));
+
+								Collections.reverse(op);
+								prefix.operands = temp;
+
+								if(prefix.getNodeVal().getVariablesOrOperator().equals("-")) {
+									prefix.getNodeVal().setVariablesOrOperator("+");
+									// prefix.setNegative(true);
+									if (prefix.operands.size() > 0) {
+										// ListRepresentation setN = new ListRepresentation();
+										// setN = prefix();
+										if(prefix.operands.get(1).operands.size() > 0) {
+											prefix.operands.get(1).setNegative(true);
+										}else {
+											prefix.operands.get(1).getNodeVal().setCoefficient(prefix.operands.get(1).getNodeVal().getCoefficient() * -1);	
+										}
+
+									} else {
+										prefix.setNegative(true);
+									}
+								}
+
+								// op = new ArrayList<ListRepresentation>();
+								// Utils.printListRepresentation(prefix);
+								// System.out.println(""+trans.peek().getVariablesOrOperator());
+								op.add(prefix);
+							} else {
+								Collections.reverse(op);
+								prefix.operands = op;
+								op.add(prefix);
+							}
 						}
+						prefix = new ListRepresentation();
 						prefix.setNodeVal(token);
-						// prefix.operands = operands;
-						// operands.clear();
-						// Utils.printListRepresentation(prefix);
-						// System.out.println("\n++++++++++++++++");
 						trans.push(prefix.getNodeVal());
-						// trans.push(prefix);
 					}
 				}
 			}
 		}
+		// Utils.printListRepresentation(prefix);
+		// System.out.println("\n\n"+trans.peek().getVariablesOrOperator());
 		// System.out.println("stack is empty: " + trans.empty());
 		// System.out.println("--------"+trans.peek().getNodeVal().getVariablesOrOperator()+"--------");
 		while (trans.peek().getVariablesOrOperator() != "#") {
 			prefix = new ListRepresentation();
 			
-			System.out.println("--------"+trans.peek().getVariablesOrOperator()+"--------");
-			prefix.setNodeVal(trans.pop());
+			// System.out.println("---same precedence-----"+trans.peek().getVariablesOrOperator()+"--------");
 
-			prefix.operands = op;
-			// op = new ArrayList<ListRepresentation>();
-			// op.add(prefix);
-			// for(int j = 0 ; j < prefix.operands.size(); j++) {
-			// 	System.out.println(prefix.operands.get(j).getNodeVal().getVariablesOrOperator() + "-----" + j);
-			// }
+			if (trans.size() > 1) {
+				List<ListRepresentation> temp = new ArrayList<ListRepresentation>(); 
+				prefix.setNodeVal(trans.pop());
 
+				Collections.reverse(op);
+
+				temp.add(op.remove(0));
+				temp.add(op.remove(0));
+
+				Collections.reverse(op);
+				prefix.operands = temp;
+				// op = new ArrayList<ListRepresentation>();
+				if(prefix.getNodeVal().getVariablesOrOperator().equals("-")) {
+					prefix.getNodeVal().setVariablesOrOperator("+");
+					// prefix.setNegative(true);
+					if (prefix.operands.size() > 0) {
+						// ListRepresentation setN = new ListRepresentation();
+						// setN = prefix();
+						if(prefix.operands.get(1).operands.size() > 0) {
+							prefix.operands.get(1).setNegative(true);
+						}else {
+							prefix.operands.get(1).getNodeVal().setCoefficient(prefix.operands.get(1).getNodeVal().getCoefficient() * -1);	
+						}
+
+					} else {
+						prefix.setNegative(true);
+					}
+				}
+				op.add(prefix);
+			} else {
+				Collections.reverse(op);
+				prefix.operands = op;
+				op.add(prefix);
+			}
 		}
 
 		// System.out.println("---------------------");
-		Utils.printListRepresentation(prefix);
-		System.out.println();
-		System.out.println("--------------------- return ---------------------");
+		// Utils.printListRepresentation(prefix);
+		// System.out.println();
+		// System.out.println("--------------------- return ---------------------");
 		return prefix;
 	}
 			
