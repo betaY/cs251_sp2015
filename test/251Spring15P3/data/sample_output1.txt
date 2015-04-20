@@ -1,0 +1,18 @@
+Testcase 1: (3)
+Output for testcase 1
+Query 1: L
+NONE
+Query 2: LL
+NONE
+Query 3: RR
+NONE
+Query 4: L
+NONE
+Query 5: LL
+NONE
+Query 6: RR
+NONE
+Query 7: (3)
+ROOT
+Query 8: (2)
+ROOT

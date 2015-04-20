@@ -1,0 +1,154 @@
+Testcase 1: (1,,(2,,(3,,(4,,(5,,(6,,(7,,(8,,(9,,(1,,))))))))))
+Output for testcase 1
+Query 1: RL
+NONE
+Query 2: RRRRRRRRRL
+NONE
+Query 3: RRRLRRR
+NONE
+Query 4: (1,,)
+R
+ROOT
+RR
+RRR
+RRRR
+RRRRR
+RRRRRR
+RRRRRRR
+RRRRRRRR
+RRRRRRRRR
+Query 5: (9,,(1,,))
+R
+ROOT
+RR
+RRR
+RRRR
+RRRRR
+RRRRRR
+RRRRRRR
+RRRRRRRR
+Query 6: (8,,(9,,(1,,)))
+R
+ROOT
+RR
+RRR
+RRRR
+RRRRR
+RRRRRR
+RRRRRRR
+Query 7: (7,,(8,,(9,,(1,,))))
+R
+ROOT
+RR
+RRR
+RRRR
+RRRRR
+RRRRRR
+Query 8: (6,,(7,,(8,,(9,,(1,,)))))
+R
+ROOT
+RR
+RRR
+RRRR
+RRRRR
+Query 9: (5,,(6,,(7,,(8,,(9,,(1,,))))))
+R
+ROOT
+RR
+RRR
+RRRR
+Query 10: (1,,(2,,(3,,(4,,(5,,(6,,(7,,(8,,(9,,(1,,))))))))))
+ROOT
+Query 11: (2,,(3,,(4,,(5,,(6,,(7,,(8,,(9,,(1,,)))))))))
+R
+ROOT
+Query 12: RL
+R
+ROOT
+RR
+RRR
+RRRR
+RRRRR
+RRRRRR
+RRRRRRR
+RRRRRRRR
+Query 13: RRRRRRRRRL
+R
+ROOT
+RR
+Query 14: RRRLRRR
+NONE
+Testcase 2: (1,(2,,(3,(4,,(5,(6,,(7,(8,,(9,(3,,(2,(7,,(7,(7,,(0,,)),)),)),)),)),)),)),)
+Output for testcase 2
+Query 1: LRL
+LR
+LRLR
+LRLRLR
+LRLRLRLR
+LRLRLRLRLR
+ROOT
+Query 2: RLRLRLRLRLRLRLRL
+NONE
+Query 3: LRLRLRLRLRL
+LR
+ROOT
+Query 4: LRL
+L
+LR
+LRL
+LRLR
+LRLRL
+LRLRLR
+LRLRLRL
+LRLRLRLR
+LRLRLRLRL
+LRLRLRLRLR
+LRLRLRLRLRL
+LRLRLRLRLRLR
+ROOT
+Query 5: RLRLRLRLRLRLRLRL
+L
+LR
+ROOT
+Query 6: LRLRLRLRLRL
+L
+LR
+LRL
+LRLR
+LRLRL
+LRLRLR
+ROOT
+Query 7: (1,(2,,(3,(4,,(5,(6,,(7,(8,,(9,(3,,(2,(7,,(7,(7,,(0,,)),)),)),)),)),)),)),)
+ROOT
+Query 8: (2,,(3,(4,,(5,(6,,(7,(8,,(9,(3,,(2,(7,,(7,(7,,(0,,)),)),)),)),)),)),))
+L
+Query 9: (3,(4,,(5,(6,,(7,(8,,(9,(3,,(2,(7,,(7,(7,,(0,,)),)),)),)),)),)),)
+LR
+ROOT
+Query 10: (7,(7,,(0,,)),)
+LR
+LRLR
+LRLRLR
+LRLRLRLR
+LRLRLRLRLR
+LRLRLRLRLRLR
+ROOT
+Testcase 3: (1,,(2,,(3,,(4,,(5,,(6,,(7,(8,(9,(3,(2,(7,,),),),),),)))))))
+Output for testcase 3
+Query 1: LLL
+RRRRRR
+RRRRRRL
+RRRRRRLL
+Query 2: LLLLLLL
+NONE
+Query 3: LLLLLLLRRRR
+NONE
+Query 4: LLL
+RRRRRR
+RRRRRRL
+RRRRRRLL
+RRRRRRLLL
+Query 5: LLLLLLL
+RRRRRR
+Query 6: LLLLLLLRRRR
+NONE

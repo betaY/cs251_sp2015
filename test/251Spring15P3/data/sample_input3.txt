@@ -1,0 +1,45 @@
+3
+(4,  (8 , ,   (9  )  ), )
+5
+p L
+p R
+p LLL
+p RRR
+p LLRRLL
+(8  , ,   (9,   ,(1  )) )
+7
+p LLLRRR
+p LLRR
+p LR
+a LR
+a RRR
+a LLL
+t (8  , ,   (9,   ,) )
+(8  ,(    1,  (1,  (1),  )   ,(1,    ,)),  (2,   ,(5,  ,(2,(6  ), )) ))
+25
+p LLR RLL
+p LRLLL
+p LRRR
+p RRLLR
+p LRLRR
+p LLLR
+p RRL
+p RRR
+p R
+p LLR
+a LLR RLL
+a LRLLL
+a LRRR
+a RRLLR
+a LRLRR
+a LLLR
+a RRL
+a RRR
+a R
+a LLR
+t (8, ,(9, , (3)))
+t (8  ,(    1,  (1,  (1),  )   ,(1,    ,)),  (2,   ,(5,  ,(2,(6  ), )) ))
+t (2,   ,(5,  ,(2,(6  ), )) )
+t (2,   ,(5,  ,(2,(6  ), )) )
+t (    1,  (1,  (1),  )   ,(1,    ,))
+

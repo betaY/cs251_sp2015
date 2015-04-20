@@ -1,0 +1,41 @@
+Testcase 1: (1,(2,(4),(5,,)),(3,,(6,(7),)))
+Output for testcase 1
+Query 1: L
+L
+ROOT
+RR
+Query 2: LL
+ROOT
+Query 3: LLL
+NONE
+Query 4: LR
+ROOT
+Query 5: RRRL
+NONE
+Query 6: RL
+R
+Query 7: RRL
+ROOT
+Query 8: RLRLR
+NONE
+Query 9: (3,,(6,(7),))
+R
+Query 10: (2,(4),(5))
+L
+ROOT
+Query 11: LLLLRL
+NONE
+Query 12: (3,(5),)
+L
+ROOT
+RR
+Testcase 2: (7,(6),(1))
+Output for testcase 2
+Query 1: L
+ROOT
+Query 2: R
+ROOT
+Query 3: RR
+NONE
+Query 4: LLLLLLLL
+NONE

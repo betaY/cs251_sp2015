@@ -1,0 +1,22 @@
+2
+(1,    (2,   (4),(   5 ,,)),(3,,(6,(7),)))
+12
+p L
+p LL
+p LLL
+p LR
+p RRRL
+p RL
+p RRL
+p RLRLR
+t (3,,(6,(7),))
+t (2,(4),(5))
+a LLLLRL
+t (3, (5), )
+(7,(6),(1))
+4
+p L
+p R
+p RR
+a LLLLLLLL
+

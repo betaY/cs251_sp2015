@@ -1,0 +1,94 @@
+Testcase 1: (4,(8,,(9)),)
+Output for testcase 1
+Query 1: L
+ROOT
+Query 2: R
+L
+Query 3: LLL
+NONE
+Query 4: RRR
+NONE
+Query 5: LLRRLL
+NONE
+Testcase 2: (8,,(9,,(1)))
+Output for testcase 2
+Query 1: LLLRRR
+NONE
+Query 2: LLRR
+NONE
+Query 3: LR
+NONE
+Query 4: LR
+R
+ROOT
+Query 5: RRR
+ROOT
+Query 6: LLL
+NONE
+Query 7: (8,,(9,,))
+R
+ROOT
+Testcase 3: (8,(1,(1,(1),),(1,,)),(2,,(5,,(2,(6),))))
+Output for testcase 3
+Query 1: LLRRLL
+NONE
+Query 2: LRLLL
+NONE
+Query 3: LRRR
+NONE
+Query 4: RRLLR
+NONE
+Query 5: LRLRR
+NONE
+Query 6: LLLR
+NONE
+Query 7: RRL
+R
+Query 8: RRR
+ROOT
+Query 9: R
+L
+R
+ROOT
+RR
+Query 10: LLR
+NONE
+Query 11: LLRRLL
+NONE
+Query 12: LRLLL
+ROOT
+Query 13: LRRR
+ROOT
+Query 14: RRLLR
+R
+Query 15: LRLRR
+NONE
+Query 16: LLLR
+ROOT
+Query 17: RRL
+R
+ROOT
+RR
+Query 18: RRR
+R
+ROOT
+Query 19: R
+L
+R
+ROOT
+RR
+Query 20: LLR
+L
+ROOT
+Query 21: (8,,(9,,(3)))
+R
+ROOT
+Query 22: (8,(1,(1,(1),),(1,,)),(2,,(5,,(2,(6),))))
+ROOT
+Query 23: (2,,(5,,(2,(6),)))
+R
+Query 24: (2,,(5,,(2,(6),)))
+R
+Query 25: (1,(1,(1),),(1,,))
+L
+ROOT
