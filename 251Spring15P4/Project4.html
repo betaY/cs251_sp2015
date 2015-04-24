@@ -1,0 +1,340 @@
+<html>
+   <head>
+      <title>CS25100: Data Structures and Algorithms, Project 4</title>
+   </head>
+
+   <h3>CS25100: Data Structures and Algorithms, Spring 2015</h3>
+
+   <h3>Project 4: Lists, Trees, and Symbolic Computations</h3>
+	   Due date: April 24th, 2015
+	   <hr>
+		<center>
+		    <table style="border-width: 1; border: 1px solid red" cellpadding=4>
+		        <tr>
+		            <td>
+		                <b><font color="red">PLEASE READ THE DESCRIPTION VERY CAREFULLY. YOU WILL STAND TO LOSE SIGNIFICANT AMOUNTS OF POINTS IF YOU DO NOT FOLLOW INSTRUCTIONS PERFECTLY IN YOUR PROJECTS, WE WILL NOT BE LENIENT!</font></b>
+		            </td>
+		        </tr>
+		    </table>
+		</center> 
+
+	<h3>Background</h3>
+		<p>We already have seen arithmetic expressions represented by trees, and have illustrated their evaluation by post-order tree traversals.  Equally, we can represent expressions by nested lists where the first list element is an operator or function, and the remaining list elements are operands or arguments. In this assignment, we will work with polynomials with integer coefficients. In a nutshell, the charge is to read in polynomials, convert them to a list representation, and simplify them into a canonical form.  The simplified polynomials are then printed.
+
+	<h3>Terminology and Normal Form</h3>
+   		<p>A <i>polynomial</i> is a valid expression formed from variables, integer constants, the operations '+', '-', '*', and '^', and from the delimiters '(' and ')'.  Variables are alphabetic characters.  Exponentiation is restricted to non-negative integers. The following are some examples
+			<ul>
+				<li> <pre>(a+b)^3</pre>
+				<li> <pre>(x-y)*(x+y)</pre>
+				<li> <pre>2*x^3-x*y+3*y^2</pre>
+				<li> <pre>((x-y)^3 + x)*(z + 2*y))-1</pre>
+				<li> <pre>a*d-u*z</pre>
+				<li> <pre>x^2 - y^3</pre>
+			</ul>
+
+		<p>In the internal representation, a <i>term</i> consists of two parts, a coefficient c which is just a signed integer, and a sequence of variables (t_1, t_2, ... t_m) that are represented as one long string. Thus, for example, the term -2xy is encoded by having the coefficient as -2 and the variable sequence as "xy". The t_j are variables; t_j and t_k may be the same variable. Terms with zero coefficients are zero. The degree of the term c*t_1*t_2*...*t_m  is m.  Terms consisting of only a signed integer are possible and have degree zero. Some examples of representing external terms internally are:
+			<ul>
+				<li> <pre>2*x^3*y^2*z  &rarr;  {coefficient: 2, variables: "xxxyyz"}</pre>
+				<li> <pre>-x^2*y  &rarr;  {coefficient: -1, variables: "xyx"}</pre>
+				<li> <pre>x*z  &rarr;  {coefficient:1, variables: "zx"}</pre>
+				<li> <pre>225 &rarr; {coefficient: 225, variables: ""}</pre>
+			</ul>
+
+		<p> The minus sign creates a traditional ambiguity because it can be used as a binary operator, a unary operator, or as the sign of a number.  Compilers disambiguate these uses by context; we apportion the minus sign internally always to the coefficient. For example, the expression 
+	
+		<pre>-2*x+y-z</pre>
+
+		is understood to have the terms -2*x, 1*y, -1*z, that is, the expression is logically understood as
+
+		<pre>((-2)*x)+(1*y)+((-1)*z)</pre>
+
+	<h3>What you have to do</h3>
+		Having read a polynomial and translated it into internal form, its canonical or normal form is an equivalent polynomial that is a sum of terms.  The transformation is accomplished by multiplying out parenthesized subexpressions and collecting the terms, repeatedly.
+
+		<p>The internal structure gets printed with a few changes.  A coefficient of 1 is not printed. Instead of printing x*x*x we print x^3.  Instead of 'E+(-1)*F' we would print 'E-F'.  Here are some examples of internal vs. external representations:
+
+		<ul>
+			<li> <pre>{3,aab} &rarr; 3a^2*b</pre>
+			<li> <pre>{15} &rarr; 15</pre>
+			<li> <pre>{1,xxx} &rarr; x^3</pre>
+			<li> <pre>{2,xy} &rarr; 2x*y</pre>
+			<li> <pre>{-1, axb} &rarr; -abx</pre>
+		</ul>
+
+	<h3>Transformations</h3>
+		Let E1, E2, etc., be expressions, then the transformations are simple algebraic identities.  They are used in a simplifying direction, indicated by an arrow.
+		<ul>
+			<li> <pre>(R1)	E^0 &rarr; 1</pre>
+			<li> <pre>(R2)	E^k &rarr; E*E*...*E, integer k&gt;1</pre>
+			<li> <pre>(R3)	(E1+ ...+Ek)*(F1+...+Fm) &rarr; E1*F1 + E1*F2 + ... + E1*Fm + (E2 + ... + Ek) * (F1 + ... + Fm) 
+[This rule is iterated to eliminate the parentheses]</pre>
+			<li> <pre>(R4)	E-F &rarr; E+(-1)*F</pre>
+			<li> <pre>(R5)	If an expression is in normal form, terms with the same variables and degrees are combined. 
+[For instance, 3*x^2*y + 2*x^2*y &rarr; 5*x^2*y]</pre>
+			<li> <pre>(R6)	If E1=a*T_1 and F1=b*T_2, where a and b are constant and T_1 and T_2 are terms with variables, E1*F1 = c*T_1*T_2, 
+where c=a*b. For instance, 2*x * 3*y = 6*x*y</pre>
+		</ul>
+
+	<h3>Tasks</h3>
+
+		<h4>Task 0 - Understand Classes (0 points, but mandatory to proceed)</h4>
+		<i><font color="red">Please read this subsection very carefully.</font></i> 
+
+		<h5><u>1. High Level Design</u></h5>
+		There are six classes in the skeleton code. They are listed below with their intended functionalities:
+
+		<ul>
+			<li> <tt>Utils.java:</tt> Contains general printing and string utilities. You should not be making a change to this file. If you want to add functions though, feel free to do so.
+			<li> <tt>AtomType.java:</tt> A straightforward enum class. You shouldn't make any changes to the existing enums. You can add enums if you wish.
+			<li> <tt>ExpressionAtom.java:</tt> Atoms make up an expression. Atoms can either be operators or operands. Every <tt>ExpressionAtom</tt> object has three fields - a string called 'variablesOrOperator', an <tt>AtomType</tt> object called 'atomType' and an integer called 'coefficient'. 'atomType' basically denotes whether an atom is an operator, or an operand. If the atom is an operator, the string 'variablesOrOperator' will store the operator. Otherwise, the integer 'coefficient' and the String 'variablesOrOperator' together will encode a term. For example, "+" would be encoded as {atomType: AtomType.OPERATOR, variablesOrOperator: "+", coefficient: &lt;irrelevant&gt;}. "-2xy" would be encoded as {atomType: AtomType.OPERAND, variablesOrOperator: "xy", coefficient: -2}. Note that you cannot encode "2ab" as {coefficient: 1, variables: "2ab"}. It has to be {coefficient: 2, variables: "ab"}.
+			<li> <tt>EvaluatePolynomials.java</tt> Contains the main function which just acts as a wrapper around everything. You shouldn't have to change anything in this file too.
+			
+			<br><br><i><b>You will need to understand the ListRepresentation class very carefully. Read the description and look at the examples. Then come back and read the description if you need to. Do as many iterations of this as you might need.</b></i>
+			<li> <tt>ListRepresentation.java</tt> This class helps maintain expressions expressed as lists. One might be tempted to think of this as a tree too because it is similar to how we used the 'Node' class in our previous assignments. However, do note that if you indeed think of this as a tree, the trees are not restricted to be binary. The class contains the following fields:
+				<ul>
+					<li> A field called 'variablesOrOperator' of type <tt>ExpressionAtom</tt>. As we saw before, an <tt>ExpressionAtom</tt> object can either be an operator or an operand. If we are storing an operator, then it means that the 'operands' (described below) field will not be empty. It basically means that this particular operator operates on the 'operands'. Instead, if we want to store an operand in 'variablesOrOperator' , the 'operands' field will be empty.
+					<li> A list called 'operands' which is an array of objects of type <tt>ListRepresentation</tt>. This recursive definition allows us to create complex expressions
+					<li> A boolean field called 'isNegative'. It is used to encode a unary minus on a term which involves exponentiation. For terms which don't involve exponentiation, we will encode unary minuses by modifying coefficients.
+				</ul>
+			<li> <tt>Polynomial.java</tt> This is the file where you will be writing all your code.
+		</ul>
+		
+		<h5><u>2. Examples</u></h5>
+		
+			<i>For 'variablesOrOperator', which is an <tt>ExpressionAtom</tt> object, we will just represent it as <pre>variablesOrOperator: {&lt;variablesOrOperator&gt;, &lt;atomType&gt;, &lt;coefficient&gt;}. For example variablesOrOperator: {"xy", AtomType.OPERAND, -1} would imply that variablesOrOperator.variablesOrOperator = "xy",
+variablesOrOperator.atomType = AtomType.OPERAND, variablesOrOperator.coefficient = -1.</pre></i>
+
+			<ul>
+				<li> Expression: <tt>(a + b)</tt>
+					<br><br>ListRepresentation Object: <pre>o = {isNegative: false, variablesOrOperator: {"+", AtomType.OPERATOR, &lt;irrelevant&gt;}, operands: [
+	o1 = {isNegative: false, variablesOrOperator: {"a", AtomType.OPERAND, 1}, operands: &lt;empty&gt;}, 
+	o2 = {isNegative: false, variablesOrOperator: {"b", AtomType.OPERAND, 1}, operands: &lt;empty&gt;}
+]}</pre>
+Formatted Output of List Representation:
+<br> <tt>[+, [a], [b]]</tt>
+<br><br><br>
+
+
+				<li> Expression: <tt>(a - b)</tt>
+					<br><br>ListRepresentation Object: <pre>o = {isNegative: false, variablesOrOperator: {"+", AtomType.OPERATOR, &lt;irrelevant&gt;}, operands: [
+	o1 = {isNegative: false, variablesOrOperator: {"a", AtomType.OPERAND, 1}, operands: &lt;empty&gt;}, 
+	o2 = {isNegative: false, variablesOrOperator: {"b", AtomType.OPERAND, -1}, operands: &lt;empty&gt;}
+]}</pre>
+Formatted Output of List Representation:
+<br> <tt>[+, [a], [-b]]</tt>
+<br><br>  The only difference between this and the above expression is that the variablesOrOperator object for "b" has a coefficient of -1.<br><br><br>
+
+
+				<li> Expression: <tt>(x + y) * (x + 5) * (2x - yz)</tt>
+					<br><br>ListRepresentation Object: <pre>o = {isNegative: false, variablesOrOperator: {"*", AtomType.OPERATOR, &lt;irrelevant&gt;}, operands: [
+	o1 = {isNegative: false, variablesOrOperator: {"+", AtomType.OPERATOR, &lt;irrelevant&gt;}, operands: [
+		o11 = {isNegative: false, variablesOrOperator: {"x", AtomType.OPERAND, 1}, operands: &lt;empty&gt;}, 
+		o12 = {isNegative: false, variablesOrOperator: {"y", AtomType.OPERAND, 1}, operands: &lt;empty&gt;}]}, 
+	o2 = {isNegative: false, variablesOrOperator: {"+", AtomType.OPERATOR, &lt;irrelevant&gt;}, operands: [
+		o21 = {isNegative: false, variablesOrOperator: {"x", AtomType.OPERAND, 1}, operands: &lt;empty&gt;}, 
+		o22 = {isNegative: false, variablesOrOperator: {"", AtomType.OPERAND, 5}, operands: &lt;empty&gt;}]},
+	o3 = {isNegative: false, variablesOrOperator: {"+", AtomType.OPERATOR, &lt;irrelevant&gt;}, operands: [
+		o31 = {isNegative: false, variablesOrOperator: {"*", AtomType.OPERATOR, <irrelevant>}, operands: [
+			o311 = {isNegative: false, variablesOrOperator: {"", AtomType.OPERAND, 2}, operands: <empty>},
+			o312 = {isNegative: false, variablesOrOperator: {"x", AtomType.OPERAND, 1}, operands: <empty>}
+		]}, 
+		o32 = {isNegative: false, variablesOrOperator: {"yz", AtomType.OPERAND, -1}, operands: &lt;empty&gt;}]}
+]}</pre>
+Formatted Output of List Representation:
+<br>  <tt>[*, [+, [x], [y]], [+, [x], [5]], [+, [*, [2], [x]], [-yz]]]</tt>
+<br><br>Note that o32 contains "yz" as one operand, but there an an implied multiplication between y and z. This means that the normal rules of multiplication apply. For instance, let's say "yz" were to be multiplied with "yx", we would get "xyyz" as final product. <br><br><br>
+
+
+				<li> Expression: <tt>(x^2 - y^3)</tt>
+					<br><br>ListRepresentation Object: <pre>o = {isNegative: false, variablesOrOperator: {"+", AtomType.OPERATOR, &lt;irrelevant&gt;}, operands: [
+	o1 = {isNegative: false, variablesOrOperator: {"^", AtomType.OPERATOR, &lt;irrelevant&gt;}, operands: [
+		o11 = {isNegative: false, variablesOrOperator: {"x", AtomType.OPERAND, 1}, operands: &lt;empty&gt;}, 
+		o12 = {isNegative: false, variablesOrOperator: {"", AtomType.OPERAND, 2}, operands: &lt;empty&gt;}]}, 
+	o2 = {isNegative: true, variablesOrOperator: {"^", AtomType.OPERATOR, &lt;irrelevant&gt;}, operands: [
+		o21 = {isNegative: false, variablesOrOperator: {"y", AtomType.OPERAND, 1}, operands: &lt;empty&gt;}, 
+		o22 = {isNegative: false, variablesOrOperator: {"", AtomType.OPERAND, 3}, operands: &lt;empty&gt;}]}
+]}</pre>
+Formatted Output of List Representation:
+<br>  <tt>[+, [^, [x], [2]], -[^, [y], [3]]]</tt>
+<br><br> Note that o2 has the 'isNegative' variable set to true. At this point, the need for the 'isNegative' variable must be clear. It is because without this, "-y^3" would have to be encoded as "-y * y^2". The 'isNegative' variable helps avoid this tedium. <br><br><br>
+			</ul>
+
+		Some other examples of expressions and their Formatted List Representation
+
+<pre>(a + b - c)^2
+[^, [+, [a], [b], [-c]], [2]]
+
+44x-(a-(x^2-y^3))
+[+, [*, [44], [x]], [+, [-a], [+, [^, [x], [2]], -[^, [y], [3]]]]]
+
+(abc+11)^4
+[^, [+, [abc], [11]], [4]]</pre>
+
+		<h4>Task 1 - Generate List Representation (50 points)</h4>
+		Read in a polynomial and generate its list representation as shown above. You are free to use any algorithm you wish. The algorithm should run in time polynomial of the size of the input.
+			
+		<p> You will edit the code in the file <tt>Polynomial.java</tt>. Specifically, you will write code under the function <tt>convertToListRepresentation</tt>. The function <tt>convertToListRepresentation</tt> should operate on the object 'infixExpression', which is of type <tt>List&lt;ExpressionAtom&gt;</tt>, and is private to the <tt>Expression</tt> class. It must return a <tt>ListRepresentation</tt> object which contains the list representation of the given input polynomial expression. Write code under the function
+			<blockquote>
+				<pre>private ListRepresentation convertToListRepresentation() {
+}</pre>
+			</blockquote>
+			
+		Note that we already have provided a function to print list representations, i.e. <tt>Utils.printListRepresentation</tt>. While building the list representation step by step, you could use this function to debug.
+
+		<h4>Task 2 - Do Algebra (50 points)</h4>
+
+		This task requires you to actually carry out the transformation listed earlier. In other words, you have to break the polynomial into its simplest elements.
+		
+		<p> You will edit the code in the file <tt>Polynomial.java</tt>. Specifically, you will write code under the function <tt>evaluateExpression</tt>. Operate on the <tt>ListRepresentation</tt> object obtained from <tt>convertToListRepresentation()</tt> and obtain a <tt>List&lt;ExpressionAtom&gt;</tt> object which contains a list of expression atoms that will enable us to get the final canonical form of the polynomial. This means that the actual value of the input polynomial should just directly be the sum of the <tt>ExpressionAtom</tt> objects in the list returned by <tt>evaluateExpression</tt>. Each <tt>ExpressionAtom</tt> object must contain 'coefficient' and the string 'variablesOrOperator' (empty string if the term is just a number), and the objects must now be of type <tt>AtomType.OPERAND</tt>.
+
+		<p>Note that it is fine to have repetitions here. For instance, it is alright if your list is
+<pre>[{coefficient: 2, variablesOrOperator: "xy", atomType: AtomType.OPERAND}, {coefficient: 1, variablesOrOperator: "xy", atomType: AtomType.OPERAND}, 
+{coefficient: 2, variablesOrOperator: "xxxy", atomType: AtomType.OPERAND}, {coefficient: -5, variablesOrOperator: "xy", atomType: AtomType.OPERAND}]</pre>
+
+		The goal is just to be one step away from getting the final canonical form. Write code under the function
+			<blockquote>
+				<pre>private List&lt;ExpressionAtom&gt; evaluateExpression() {
+}</pre>
+			</blockquote>
+			
+		<h4>Task 3 - Normalize Expression (40 points)</h4>
+
+		This task requires you to simplify the polynomial obtained to prepare it for output.
+		
+		<p>Once again, you will edit the code in the file <tt>Polynomial.java</tt>. Specifically, you will write code under the function <tt>simplifyAndNormalize</tt>. The function takes in the <tt>List&lt;ExpressionAtom&gt;</tt> object obtained from <tt>evaluateExpression()</tt> and must return a <tt>List&lt;ExpressionAtom&gt;</tt> object which contains a list of expression atoms which is in fact the final canonical form of the polynomial. This means that the actual value that is going to be output on the screen should just directly be the sum of the <tt>ExpressionAtom</tt> objects obtained from the above <tt>List&lt;ExpressionAtom&gt;</tt> object that <tt>simplifyAndNormalize</tt> returns.
+
+		<p>By this time, you must not have any repeated variables. You cannot have, for instance
+<pre>[{coefficient = 2, variablesOrOperator = "xy", atomType = AtomType.OPERAND}, {coefficient = 3, variablesOrOperator = "xy", atomType = AtomType.OPERAND}]</pre>
+
+		However, you don't have to compress variables such as "xxx". The code to do that is already written for you. For instance, it is alright if your list is
+<pre>[{coefficient = 2, variablesOrOperator = "xxxy", atomType = AtomType.OPERAND}, {coefficient = -11, variablesOrOperator = "xxyy", atomType = AtomType.OPERAND}]</pre>
+
+		The goal is just to be one step away from compressing terms such as "xxx" to "x^3". However, do note that there are no repetitions of the tokens. Write code under the function
+			<blockquote>
+				<pre>private List<ExpressionAtom> simplifyAndNormalize(List&lt;ExpressionAtom&gt; evaluatedExpression)
+}</pre>
+			</blockquote>
+
+		<h4>Task 4 - Write good quality code (10 points)</h4>
+		Make sure your code is well documented, indented properly. Also ensure that you use descriptive function and variable names. When we say descriptive, you must remember to not belabor the obvious; for instance writing a loop with <i>loopCounterVariable</i> as the control variable, instead of the universally used <i>i</i> or <i>j</i> shouldn't be done. Your comments and descriptive variable names must help readers understand things very quickly.
+
+		<p> Also, remove "TODO"s in your program. Leaving them around is just sloppy.
+
+   <h3>Input:</h3>
+Input will be via standard input. Below is how one round of input will look like.
+   <blockquote>
+<pre>&lt;Number of test cases (n)&gt;
+&lt;Polynomial Expression 1&gt;
+&lt;Polynomial Expression 2&gt;
+...
+&lt;Polynomial Expression n&gt;</pre>
+   </blockquote>
+
+   <h3>Output:</h3>
+Output should be to standard output. Below is how one round of output should look like.
+   <blockquote>
+
+<pre>Testcase 1: &lt;Cleaned expression 1&gt;
+	&lt;List Representation of expression 1&gt;
+	&lt;Normalized Canonical Representation of expression 1&gt;
+
+Testcase 2: &lt;Cleaned expression 2&gt;
+	&lt;List Representation of expression 2&gt;
+	&lt;Normalized Canonical Representation of expression 2&gt;
+
+...
+
+Testcase n: &lt;Cleaned expression n&gt;
+	&lt;List Representation of expression n&gt;
+	&lt;Normalized Canonical Representation of expression n&gt;</pre>
+   </blockquote>
+
+   <h3>Sample Input/Output:</h3>
+Let's see an example. For the input
+   <blockquote>
+<pre>4
+(x+y)^2
+x^2 - y^3
+(x+y)*(x-y)
+(x+y)^2 - (x-y)^2</pre>
+   </blockquote>
+the output must be
+   <blockquote>
+<pre>Test Case 1: (x+y)^2
+    [^, [+, [x], [y]], [2]]
+    x^2 + 2xy + y^2
+
+Test Case 2: x^2-y^3
+    [+, [^, [x], [2]], -[^, [y], [3]]]
+    - y^3 + x^2
+
+Test Case 3: (x+y)*(x-y)
+    [*, [+, [x], [y]], [+, [x], [-y]]]
+    x^2 - y^2
+
+Test Case 4: (x+y)^2-(x-y)^2
+    [+, [^, [+, [x], [y]], [2]], -[^, [+, [x], [-y]], [2]]]
+    4xy</pre>
+   </blockquote>
+   
+	<h3>General Instructions:</h3>
+   <p>
+
+   <ul>
+	   <li> We have provided skeleton code and ancillary files. Your changes will have to be on top of what has already been given to you. Writing your own code will cause you to lose points.
+<p>
+	   <li> Do not change file structures, file names, folder names or folder structures. 
+<p>
+	   <li> You are free to create as many Java classes and files as you wish, and as many functions as you wish. But do not change what is already written in the skeleton. You can also create test scripts if you like.
+<p>
+	   <li> Always, you will need to write code only when you see "TODO" markers. Whenever there is a TODO marker, we will make sure to write some extra comments under the TODO markers and this will tell you what you really need to do. What this means is that parts of the task will already be done for you in the skeleton. Just to re-iterate, you can create extra classses/functions that you might want to use/call.
+<p>
+	   <li> Please carefully note the input and output formats. Also note the exact casing of the alphabets and the exact number of spaces and newlines to be added at various points in the output. Even one missing or extra character will cause you to lose points in the projects. <i>In this project, the skeleton code is doing this for you; you only need to focus on the data structures and algorithmic aspects.</i>
+<p>
+	   <li> Different people write/edit code in different ways, so:
+			  <ul>
+				<li> If you are going to be using Eclipse, read <a href="https://piazza.com/class_profile/get_resource/i4kag31qqrvq2/i4yrq6imw9u37v">this</a>.
+				<li> If you are going to be using Dr. Java, read <a href="https://piazza.com/class_profile/get_resource/i4kag31qqrvq2/i4yrq6tl41h786">this</a>.
+				<li> If you are going to be coding in a low-tech manner using system editors like Vim, read <a href="https://piazza.com/class_profile/get_resource/i4kag31qqrvq2/i4yrq6z4f7k3t4">this</a>.
+				<li> If you are going to be using something else, you are on your own.
+			  </ul>
+   </ul>
+
+<h3>Project Specific Instructions:</h3>
+  At a high level, there are going to be four things you will need to do for this project: <p>
+		<ul>
+			<li> <b>Coding:</b> Download the skeleton code which is available <a href="https://piazza.com/class_profile/get_resource/i4kag31qqrvq2/i8jhb7jhjl91ts">here</a>. Unzip it and edit the code present in the folder (the folder should be <tt>251Spring15P4</tt>). Make sure you are acquainted with the process of editing code by reading the instructions in the previous section. You will fill in the empty functions in <tt>TreeParser.java</tt>.
+<p>
+			<li> <b>Testing:</b> You will begin by using the sanity test script provided to you. It is present in <tt>251Spring15P4</tt>.
+				<blockquote>
+         			Assuming you are in <tt>251Spring15P4</tt>, just running:
+		            <pre>$sh sanity_test.sh 1</pre>
+					will tell you whether or not your program conforms to basic output requirements. Remember, we require a very specific output format and this will test if your program is passing the simplest test case. Running
+		            <pre>$sh sanity_test.sh 2</pre>
+					will test your program more thoroughly. The file contains a few tricky test cases.
+					<p>If your program is perfect, you will see an output which says 
+		            <pre>$Sanity Test1 Passed!</pre>
+					or
+		            <pre>$Sanity Test2 Passed!</pre>
+					correspondingly.
+		       </blockquote>
+You should also create your own test cases and test your program against them. The program takes input from standard input, so you should have to feed in your test cases accordingly. It is highly recommended that you use redirection to test your programs. Talk to your TA if you want to learn how to do it. You could also just look at what <tt>sanity_test.sh</tt> is doing to understand how to use redirection. Move ahead only once you are convinced of the correctness of your work. PLEASE REMEMBER THAT <tt>sanity_test.sh</tt> IS THERE ONLY TO TEST YOUR PROGRAM AGAINST ELEMENTARY TEST CASES. It is up to you to construct all kinds of test cases and validate your work.
+<p>
+			<li> <b>Submission:</b> Submit your solution before April 24th 11:59 pm (note that when the time becomes 12:00 am, the date timestamp changes to the next day; please read the late policy carefully). The simple program "turnin" will be used to submit assignments in this course. Please follow these instructions very carefully as any small error can make your submission invalid:
+      <p>Once you unzipped the skeleton code provided, you will have a folder which contains everything. This folder should be <tt>251Spring15P4</tt>. You will have edited the code inside <tt>251Spring15P4</tt> (without changing the structure) and will also have placed <tt>Report.pdf</tt> inside it. You might have also created some other files inside the folder.
+      <p>Log into (or <tt>ssh</tt> to) <tt>data.cs.purdue.edu</tt> or <tt>lore.cs.purdue.edu</tt> 
+         (you can also use puTTY). Then, please follow these steps:
+      <ul>
+         <li>cd into <tt>251Spring15P4</tt> and make sure all the files you wish to submit are there. <b>WE WILL NOT BE LENIENT WITH PEOPLE WHO SUBMIT THE WRONG FOLDER OR FORGET TO SUBMIT REQUIRED FILES.</b>
+         <li>
+            While in the upper level directory (e.g. if the files are in <tt>/homes/jdoe/mycode/251Spring15P4</tt>, cd to <tt>/homes/jdoe/mycode/</tt>), execute the following command:
+            <pre>$turnin -c cs251 -p project4 251Spring15P4</pre>
+         <li> Keep in mind that old submissions are completely overwritten with new ones whenever you execute this command, and the timestamp we will use to check your submission time according to our late policy is the time of last submission (turnin does not keep track of timestamps or any contents of any earlier submissions). 
+         <li>
+            If you wish to, you can verify your submission by executing the following command:
+            <pre>$turnin -v -c cs251 -p project4</pre>
+            Do not forget the <tt>-v</tt> flag here, as otherwise your submission will be completely replaced with a blank (an empty) submission and your earlier timestamp overwritten.
+      </ul>
+      <p>		</ul>
+
+</html>
